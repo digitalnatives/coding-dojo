@@ -1,0 +1,2 @@
+require 'lottery'
+require 'rspec'
