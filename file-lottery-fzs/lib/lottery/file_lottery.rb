@@ -1,0 +1,2 @@
+class FileLottery
+end
