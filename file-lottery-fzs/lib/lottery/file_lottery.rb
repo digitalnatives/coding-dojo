@@ -5,8 +5,13 @@ class FileLottery
   end
 
   def execute
-    Dir.entries("test_data/folder")
-    @stream.puts '1 2 3 5 4'
+    result = random(Dir.entries("test_data/folder").sort)
+    result -= [".", ".."]
+    @stream.puts result.join(" ")
+  end
+
+  def random(entries)
+    entries.shuffle
   end
 
 end

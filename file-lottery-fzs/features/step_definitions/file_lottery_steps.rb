@@ -16,8 +16,8 @@ When /^I execute my application$/ do
 end
 
 Then /^I see the content of the folder in random order$/ do
-  @stream.message.should eql('1 2 3 5 4')
-
+  output = @stream.message.split(" ").sort.join(" ")
+  output.should eql('1 2 3 4 5')
 end
 
 When /^I execute my application twice$/ do
