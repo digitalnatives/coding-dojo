@@ -13,7 +13,13 @@ describe "FileLottery" do
     @file_lottery.execute
   end
 
-  it "should randomize read files and give back the result" do
+  it "should randomize read files" do
+    @file_lottery.should_receive( :random ).and_return([])
+    @stream.should_receive( :puts )
+    @file_lottery.execute
+  end
+  
+  it "should give back the result" do
     @file_lottery.should_receive( :random ).and_return( %w( 1 2 3 4 5 ) )
     @stream.should_receive( :puts ).with( '1 2 3 4 5' )
     @file_lottery.execute

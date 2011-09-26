@@ -21,11 +21,14 @@ Then /^I see the content of the folder in random order$/ do
 end
 
 When /^I execute my application twice$/ do
-  pending # express the regexp above with the code you wish you had
+  @stream = OutputDouble.new
+  file_lottery = FileLottery.new(@stream)
+  @results = []
+  2.times { @results << file_lottery.execute }
 end
 
 Then /^I see that the order of the result of the executions are different$/ do
-  pending # express the regexp above with the code you wish you had
+  @results[0].should_not eql(@results[1])
 end
 
 class OutputDouble
