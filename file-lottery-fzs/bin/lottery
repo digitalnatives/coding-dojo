@@ -4,4 +4,4 @@ $LOAD_PATH.unshift File.expand_path('../../lib' , __FILE__)
 
 require 'lib/lottery.rb'
 
-FileLottery.new(STDOUT).execute
+FileLottery.new(STDOUT).execute(ARGV.first)

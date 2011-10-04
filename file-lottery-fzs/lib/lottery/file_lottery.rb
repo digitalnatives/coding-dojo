@@ -4,10 +4,11 @@ class FileLottery
     @stream = stream
   end
 
-  def execute
-    result = random(Dir.entries("test_data/folder").sort)
+  def execute( dir_path )
+    result = random(Dir.entries(dir_path).sort)
     result -= [".", ".."]
     @stream.puts result.join(" ")
+    true
   end
 
   def random(entries)
