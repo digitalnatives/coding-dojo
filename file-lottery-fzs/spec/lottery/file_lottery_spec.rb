@@ -35,8 +35,25 @@ describe "FileLottery" do
 
   it "should get the dir path as an argument" do
     test_dir = "test_data/dojo"
+    File.should_receive( :directory? ).and_return( true )
     Dir.should_receive( :entries ).with( test_dir ).and_return([])
     @stream.should_receive( :puts )
+    @file_lottery.execute( test_dir )
+  end
+
+  it "should return empty string running on empty dir" do
+    test_dir = "test_data/empty"
+    File.should_receive( :directory? ).and_return( true )
+    Dir.should_receive( :entries ).with( test_dir ).and_return([".", ".."])
+    @stream.should_receive( :puts ).with( '' )
+    @file_lottery.execute( test_dir )
+  end
+
+  it "should return empty string running on nonexisting dir" do
+    test_dir = "test_data/nonexisting"
+    File.should_receive( :directory? ).with( test_dir ).and_return( false )
+    Dir.should_not_receive( :entries )
+    @stream.should_receive( :puts ).with( '' )
     @file_lottery.execute( test_dir )
   end
 
