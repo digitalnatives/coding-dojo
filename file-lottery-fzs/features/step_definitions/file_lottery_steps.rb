@@ -1,18 +1,16 @@
 Given /^I have a folder with five different files no directories$/ do
-  dir = File.expand_path("../../../", __FILE__)
-  @test_data_folder = File.join(dir, "test_data","folder")
-  FileUtils.rm_rf(@test_data_folder)
-  FileUtils.mkdir_p(@test_data_folder)
+  FileUtils.rm_rf(MyCucumber::TEST_DATA_FOLDER)
+  FileUtils.mkdir_p(MyCucumber::TEST_DATA_FOLDER)
 
   1.upto(5) do |filename|
-    File.new(File.join(@test_data_folder, filename.to_s), "w")
+    File.new(File.join(MyCucumber::TEST_DATA_FOLDER, filename.to_s), "w")
   end
 end
 
 When /^I execute my application$/ do
   @stream = OutputDouble.new
   file_lottery = FileLottery.new(@stream)
-  file_lottery.execute(@test_data_folder)
+  file_lottery.execute(MyCucumber::TEST_DATA_FOLDER)
 end
 
 Then /^I see the content of the folder in random order$/ do
@@ -25,7 +23,7 @@ When /^I execute my application 1000 times$/ do
   file_lottery = FileLottery.new(@stream)
   @results = []
   1000.times do
-    file_lottery.execute(@test_data_folder)
+    file_lottery.execute(MyCucumber::TEST_DATA_FOLDER)
     @results << @stream.message
   end
 end
@@ -35,7 +33,7 @@ Then /^I see that the order of the result of the executions are different at lea
 end
 
 When /^I add a file to the folder$/ do
-  File.new(File.join(@test_data_folder, "10"), "w")
+  File.new(File.join(MyCucumber::TEST_DATA_FOLDER, "10"), "w")
 end
 
 Then /^It will appear in the result$/ do
@@ -44,7 +42,7 @@ Then /^It will appear in the result$/ do
 end
 
 When /^I execute my application bin$/ do
-  @bin_output = `bin/lottery #{@test_data_folder}`
+  @bin_output = `bin/lottery #{MyCucumber::TEST_DATA_FOLDER}`
 end
 
 Then /^It should return to shell with (\d+)$/ do |arg1|
