@@ -1,5 +1,4 @@
 class FileLottery
-
   def initialize(stream)
     @stream = stream
   end

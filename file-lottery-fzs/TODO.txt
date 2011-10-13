@@ -1,4 +1,4 @@
-- check if directory is empty
-- check when directory contains files with name bigger than 9
-- check when no argument given
-- implement cleanup hook
++ check if directory is empty
+-ü check when directory contains files with name bigger than 9
++ check when no argument given
++ implement cleanup hook
