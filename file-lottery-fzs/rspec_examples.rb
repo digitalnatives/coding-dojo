@@ -413,10 +413,10 @@ module Player
 		  end
 
 		  def get(action)
-			define_method :do_request do
-			  get action
-			end
-			yield
+			  define_method :do_request do
+			    get action
+			  end
+  			yield
 		  end
 		end
 

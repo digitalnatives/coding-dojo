@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe FileLottery do
   let(:test_dir) {"test_data/folder"}
-  let(:stream) { mock(IO) }
+  let(:stream) { mock("source") }
 
   subject { FileLottery.new(stream) }
+
 
   context "with existing directory" do
     before( :each ) do
