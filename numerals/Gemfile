@@ -35,7 +35,7 @@ gem 'therubyracer'
 group :development, :test do
   gem 'rspec', '~> 2.7.0'
   gem 'rspec-rails', '~> 2.7.0'
-  gem 'cucumber'
-  gem 'cucumber-rails'
+  gem 'cucumber', '1.0.2'
+  gem 'cucumber-rails', '1.0.2'
 end
 
