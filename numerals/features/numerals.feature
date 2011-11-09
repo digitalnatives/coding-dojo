@@ -1,3 +1,0 @@
-Feature: English numerals
-
-Scenario: 
