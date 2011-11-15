@@ -7,7 +7,7 @@ Scenario: As a visitor I would like load the page
 
 Scenario: As a visitor I would like submit a number
   Given I am on the home page
-  When I fill in "number" with "42"
+  When I fill in "number" with "41"
    And I press "commit"
-  Then I should see "42"
+  Then I should see a number in human readable way
 
