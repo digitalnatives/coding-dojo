@@ -34,10 +34,20 @@ describe EnglishNumerals do
 
   it "should translate a number under 1000" do
     {
-        945 => "nine-hundred-forty-four",
-        300 => "three-hundred",
-        450 => "four-hundred-fifty",
+        945 => "nine hundred forty-five",
+        300 => "three hundred",
+        450 => "four hundred fifty",
         100 => "one hundred"
+      }.each do |number, translation|
+     EnglishNumerals.translate(number).should eql(translation)
+    end
+  end
+
+  it "should translate a number under 1_000_000" do
+    {
+        945_654 => "nine hundred forty-five thousand and six hundred fifty-four",
+        600_000 => "six hundred thousand",
+        450_001 => "four hundred fifty thousand and one"
       }.each do |number, translation|
      EnglishNumerals.translate(number).should eql(translation)
     end
