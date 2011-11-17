@@ -9,7 +9,7 @@ describe MainController do
 
   it "should set result inst variable from params" do
     post(:index, { :number => 42 } )
-    assigns(:result).should eql("42")
+    assigns(:result).should eql("fourtytwo")
   end
 
   context "converter" do
@@ -18,10 +18,19 @@ describe MainController do
         response.body.should =~ /one/m
     end
 
-    it "should convert the incoming 41 to fourty-one" do
+    it "should convert the incoming 41 to fourtyone" do
       post(:index, { :number => 41 } )
-      response.body.should =~ /fourty-one/m
+      response.body.should =~ /fourtyone/m
     end
+
+    it "should convert the examples to words" do
+      # [ 8050, "eight thousand and fifty" ]
+      [ [ 1, "one" ], [ 12, "twelve" ], [ 56, "fiftysix" ], [ 111, "onehundred eleven" ] ].each do |example| 
+        post(:index, { :number => example[0] } )
+        response.body.should =~ /#{example[1]}/m
+      end
+    end
+
   end
 
 end
