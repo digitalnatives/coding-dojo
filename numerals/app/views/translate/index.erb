@@ -1,0 +1,7 @@
+<%= form_tag(do_translate_path, :remote => true) do %>
+	<%= text_field_tag('number', nil, :id=> 'number') %>
+	<%= submit_tag('do the trick') %>
+<% end %>
+
+<div id="result">
+</div>
