@@ -1,6 +1,10 @@
 require "spec_helper.rb"
 
 describe EnglishNumerals do
+  it "should raise and exception when number is greater than 999_999_999" do
+    expect{EnglishNumerals.translate(999_999_999+1)}.to raise_error(ArgumentError)
+  end
+  
   it "should translate number between 1 and 12" do
     {
       1 => "one",
@@ -37,6 +41,7 @@ describe EnglishNumerals do
         945 => "nine hundred forty-five",
         300 => "three hundred",
         450 => "four hundred fifty",
+        105 => "one hundred five",
         100 => "one hundred"
       }.each do |number, translation|
      EnglishNumerals.translate(number).should eql(translation)

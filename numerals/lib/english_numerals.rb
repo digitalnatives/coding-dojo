@@ -58,6 +58,8 @@ class EnglishNumerals
   end
 
   def translate(number)
+    raise ArgumentError if number > 999_999_999
+
     to_return = []
 
     million_digits = number / 1_000_000
