@@ -37,5 +37,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.7.0'
   gem 'cucumber'
   gem 'cucumber-rails'
+  gem 'guard', '0.8.8'
+  gem 'guard-rspec', '0.5.8'
+  gem 'guard-cucumber', '0.7.4'
 end
 
