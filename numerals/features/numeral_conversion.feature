@@ -1,12 +1,11 @@
-Feature: English numerals
+Feature: English numeral converter
 
   Background:
-    Given I am on the main page
+    Given I have a converter
 
-  Scenario Outline: Display cardinal numbers as words
-    When I enter <number> into my field
-     And I press submit
-    Then I see <word> as a result
+  Scenario Outline: convert cardinal numbers to words
+    When I convert <number> with my converter
+    Then I should get <word>
    
     Examples:
       | number | word      |
@@ -31,12 +30,6 @@ Feature: English numerals
       |19      |"nineteen" |
       |20      | "twenty"  |
 
-  Scenario: Display a number with hyphen as a word
-    When I enter 21 into my field
-    Then I see "twenty-one" as a result
-    
-   
-  Scenario: Display cardinal numbers as words
-    Given I am on the main page
-     When I press submit
-     Then I do not see any error just the content of the main page
+  Scenario: Convert a number with hyphen to a word
+    When I convert 21 with my converter
+    Then I should get "twenty-one"
