@@ -65,3 +65,12 @@ Feature: English numeral converter
       |   1997    | "one thousand nine hundred and ninety-seven"                   |
       |  19197    | "nineteen thousand one hundred and ninety-seven"               |
       | 403197    | "four hundred and three thousand one hundred and ninety-seven" |
+     
+  Scenario Outline: Convert numbers between 1000 and 1000000
+    When I convert <number> with my converter
+    Then I should get <name>
+
+    Examples:
+      | number   | name          |
+      | 1000000  | "million"     |
+      | 10000000 | "ten million" |

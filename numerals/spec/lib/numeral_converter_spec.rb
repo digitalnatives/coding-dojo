@@ -39,9 +39,12 @@ describe NumeralConverter do
       subject.convert(1997).should =~ /^one thousand/
     end
     
-    it "should apply the conversion logic on thousands group" do
+    it "should apply the conversion logic on the thousands" do
       subject.convert(403197).should =~ /^four hundred and three/
     end
+    
+    it "should repeat the conversion on the millions and billions etc" do
+      subject.convert(10001001).should =~ /^ten million one thousand one/
+    end
   end
- 
 end
