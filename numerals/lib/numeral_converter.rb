@@ -5,15 +5,18 @@ class NumeralConverter
      13 => "thirteen", 14 => "fourteen", 15 => "fifteen", 16 => "sixteen", 17 => "seventeen",
      18 => "eighteen", 19 => "nineteen", 20 => "twenty", 30=> "thirty", 40=> "forty",
      50 => "fifty", 60 => "sixty", 70 => "seventy", 80 => "eigthy", 90 => "ninety",
-     100 => "hundred" 
+     100 => "hundred", 1000 => "thousand"
   }
 
   def convert(number)
     if uncomplicated_number?(number)
       @@uncomplicated_numbers[number]
+    elsif number > 1000
+      rest = number % 1000
+      result = "#{convert(number / 1000)} thousand"
+      result += " #{convert(rest)}" if rest > 0
     elsif number > 100
       rest = number % 100
-      
       result = "#{@@uncomplicated_numbers[number / 100]} hundred"
       result += " and #{convert(rest)}" if rest > 0
       result
