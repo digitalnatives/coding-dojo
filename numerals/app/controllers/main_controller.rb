@@ -7,5 +7,6 @@ class MainController < ApplicationController
     else
       @result = ""
     end
+    @original_number = params[:number]
   end
 end

@@ -7,7 +7,8 @@ Feature: Provide a simple form for the user so that she can use the converter
     Given I am on the main page
      When I enter 10 into my field
       And I press submit
-     Then I see it as a word in the result
+     Then I see it as a name in the result
+      And I see the original number as well
 
   Scenario: Don't display anything when the user pressed submit without giving a number
     Given I am on the main page
