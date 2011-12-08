@@ -1,6 +1,6 @@
 Enumerals::Application.routes.draw do
   match 'translate/index' => 'translate#index', :as => 'translate', :via => [:get]
-  match 'translate/do_translate' => 'translate#do_translate', :as => 'do_translate', :via => [:post]
+  match 'translate/do_translate' => 'translate#do_translate', :as => 'do_translate', :via => [:post, :get]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

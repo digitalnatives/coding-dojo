@@ -10,3 +10,12 @@ end
 Then /^I should get "([^"]*)" as result$/ do |result|
   find("#result").should have_content(result)
 end
+
+Given /^The api receives a translation request with number "([^"]*)"$/ do |number|
+  visit do_translate_path(:format => :json, :number => number)
+end
+
+Then /^The response should contain "([^"]*)" as result$/ do |result|
+  JSON.parse(page.source)['result'].should eql(result)
+end
+
