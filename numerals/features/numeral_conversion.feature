@@ -42,7 +42,7 @@ Feature: English numeral converter
     | 50     | "fifty"       |
     | 60     | "sixty"       |
     | 70     | "seventy"     |
-    | 80     | "eigthy"      |
+    | 80     | "eighty"      |
     | 90     | "ninety"      |
 
   Scenario Outline: Convert numbers between 100 and 999
