@@ -2,12 +2,12 @@ require_relative "../../router"
  
 require 'capybara'
 require 'capybara/cucumber'
-require 'rspec'
-require 'rack/test'
+#require 'rspec'
+#require 'rack/test'
  
-World do
+#World do
   Capybara.app = Router
  
-  include Capybara::DSL
-  include RSpec::Matchers
-end
+  #include Capybara::DSL
+  #include RSpec::Matchers
+#end
