@@ -14,7 +14,7 @@ Then /^I get back a user's details$/ do
 end
 
 When /^I update it's details without errors$/ do
-  page.driver.put( "/users/#{@user.id}", { :params => { :name => "Mikike a király" } } )
+  page.driver.put( "/users/#{@user.id}", { :params => { :name => "Miki is the king" } } )
 end
 
 Then /^I get back a success message$/ do
@@ -26,7 +26,7 @@ When /^I update it's details with errors$/ do
 end
 
 Then /^I get back an error message$/ do
-  @response == { :error => { :name => "Lucas egy fasz, a név nem lehet Lucas" } }
+  @response == { :error => { :name => "Name can't be Lucas" } }
 end
 
 When /^I request it's comments$/ do
@@ -36,7 +36,7 @@ end
 Then /^I get back a user's comments$/ do
   @response == [{
     :id => 1,
-    :message => "Lucas egy fasz",
+    :message => "Lucas is silly! :)",
     :timestamp => 1
   }]
 end
