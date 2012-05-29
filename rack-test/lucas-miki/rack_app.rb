@@ -1,17 +1,36 @@
 class RackApp
   def self.call(env)
     @request = Rack::Request.new(env)
-    body = ['MIKIKE','asd','asd','asddsasd','asdasd']
+
+    # /users/:id
+    # /users/:user_id/comments/
     
-    puts @request.path_info
-    routes = {
-      "text" => {'Content-Type'=>'text/plain', 'Body' => body.join},
-      "json" => {'Content-Type'=>'application/json', 'Body' => body.to_json},
-      "xml" => {'Content-Type'=>'text/xml', 'Body' => '<root>' + body.map{|item| '<value>'+item+'</value>'}.join("\n") + '</root>'}
-    }
-    route = routes.select{ |route| @request.path_info =~ Regexp.new("\/#{route}") }.values.first
-    [200, {'Content-Type'=> route['Content-Type']}, [route['Body']] ]
-  rescue
+    controller = case @request.path_info
+    when /\/users\/\d+\/comments/
+      "comments"
+    when /\/users\/\d+/
+      "users"
+    else
+      raise "invalid url"
+    end
+    
+    method = @request.request_method
+    
+    response = run_controller_action( controller, method )
+    
+    [200, {'Content-Type'=> "application/json" }, [response] ]
+  rescue => e
+    puts "exception: #{e.message}"
+    
     [404, {'Content-Type'=> 'text/plain'}, ['Not found'] ]
   end
+  
+  def self.get_id_from_path_info( path_info )
+    path_info.match( /\/users\/(\d+)/ )[1].to_i
+  end
+  
+  def self.run_controller_action( action, method )
+    "naaaa"
+  end
+  
 end
