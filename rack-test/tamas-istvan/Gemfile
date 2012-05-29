@@ -1,0 +1,6 @@
+gem 'rack'
+gem 'rack-test'
+gem 'thin'
+gem 'cucumber'
+gem 'capybara'
+gem 'rspec'
