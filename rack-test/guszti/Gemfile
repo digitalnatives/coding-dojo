@@ -2,3 +2,4 @@ source :gemcutter
 gem 'capybara'
 gem 'poltergeist', :require => 'capybara/poltergeist'
 gem 'cucumber'
+gem 'datamapper'

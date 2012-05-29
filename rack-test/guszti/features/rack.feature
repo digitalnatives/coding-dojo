@@ -1,6 +1,6 @@
 Feature: User
-	Background:
-		Given I have a user with id 1 and name Tamas Tompa
+  Background:
+    Given I have a user with id 1 and name Tamas Tompa
 
   Scenario: Get the user
      When I get the user
@@ -15,8 +15,8 @@ Feature: User
      When I set the username to ''
      Then I should get an error
 
-	Scenario: Get the comments of the user
-		Given I have a comment for the user with id 1 and message Hello World
+  Scenario: Get the comments of the user
+    Given I have a comment for the user with id 1 and message Hello World
      When I get the comment
      Then The comment id should be 1
       And The comment message should be Hello World

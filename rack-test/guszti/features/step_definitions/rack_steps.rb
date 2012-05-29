@@ -1,8 +1,5 @@
 Given /^I have a user with id (\d+) and name (.*)$/ do |id,name|
-  @user = {
-  	id: id.to_i,
-  	name: name
-  }
+  @user = User.first_or_create :id => id.to_i, :name => name
 end
 
 When /^I get the user$/ do
@@ -21,6 +18,7 @@ end
 
 When /^I set the username to (.*)$/ do |name|
   name = '' if name == "''"
+  name = CGI.escape name
 	page.driver.post('/users/'+@user[:id].to_s+"?name=#{name}&_method=PUT")
 end
 
