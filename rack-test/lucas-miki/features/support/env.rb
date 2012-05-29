@@ -3,6 +3,8 @@ ENV['RACK_ENV'] = 'test'
  
 require 'capybara'
 require 'capybara/cucumber'
+require 'rspec/mocks'
+require 'cucumber/rspec/doubles'
 require './rack_app'
  
 Capybara.app = RackApp
