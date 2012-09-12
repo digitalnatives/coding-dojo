@@ -1,0 +1,409 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fields",
+				"fields"
+			],
+			[
+				"respon",
+				"response_hash"
+			],
+			[
+				"O",
+				"OAuth"
+			],
+			[
+				"E",
+				"Error"
+			],
+			[
+				"Four",
+				"Foursquare"
+			],
+			[
+				"activities",
+				"activities"
+			],
+			[
+				"to_i",
+				"to_i"
+			],
+			[
+				"last",
+				"last_run_info"
+			],
+			[
+				"googl",
+				"googleplus_offline_access_token"
+			],
+			[
+				"No",
+				"NeedToken"
+			],
+			[
+				"id",
+				"id"
+			],
+			[
+				"Googl",
+				"GooglePlusConf"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Gemfile",
+			"settings":
+			{
+				"buffer_size": 64,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config.ru",
+			"settings":
+			{
+				"buffer_size": 95,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "router.rb",
+			"settings":
+			{
+				"buffer_size": 131,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "features/support/env.rb",
+			"settings":
+			{
+				"buffer_size": 207,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "features/step_definitions/router_steps.rb",
+			"settings":
+			{
+				"buffer_size": 1366,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 530.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/qw3r/Work/DiNa/dojo/20120524/features/users.feature",
+		"/home/qw3r/Work/DiNa/zuppaa/config/locales/hu.yml",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/iwiw.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/config/locales/en.yml",
+		"/home/qw3r/Work/DiNa/zuppaa/app/views/profiles/accounts/_linkedin.html.erb",
+		"/home/qw3r/Work/DiNa/zuppaa/Gemfile",
+		"/home/qw3r/Work/DiNa/zuppaa/app/models/post.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/social_sync_daemon.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/feed.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/models/feed.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/controllers/profiles_controller.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/views/profiles/accounts/_feed.html.erb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/models/user.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/db/migrate/20120522161704_add_last_run_info_to_feeds.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/blog.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/iwiw_oauth.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/vkontakte.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/flickr.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/picasa.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/facebook.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/googleplus.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/foursquare.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/linkedin.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/vimeo.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/youtube.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/fetcher/twitter.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/views/profiles/accounts/_iwiw.html.erb",
+		"/home/qw3r/Work/DiNa/zuppaa/config/iwiw.yml",
+		"/home/qw3r/Work/DiNa/zuppaa/spec/lib/fetcher_spec.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/spec/factories.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/spec/models/admin_user_spec.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/helpers/profiles_helper.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/lib/tasks/populate.rake",
+		"/home/qw3r/Work/DiNa/zuppaa/app/views/profiles/accounts/_googleplus.html.erb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/controllers/popularize_controller.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/models/like.rb",
+		"/home/qw3r/Work/DiNa/zuppaa/app/controllers/posts_controller.rb",
+		"/home/qw3r/Work/DiNa/zuppaa.sublime-workspace"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/home/qw3r/Work/DiNa/zuppaa/app",
+			"/home/qw3r/Work/DiNa/zuppaa/lib",
+			"/home/qw3r/Work/DiNa/zuppaa/app/controllers"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"link",
+			"        	<",
+			"hu",
+			"linked",
+			"working_profiles",
+			"BlogFeedCreator",
+			"feed",
+			"blo",
+			"NEW_BOARDMSG_IMG",
+			"            '",
+			" '",
+			"iwiw_api",
+			"oauth_agent",
+			"set_gplus_client"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Gemfile",
+					"settings":
+					{
+						"buffer_size": 64,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								64,
+								64
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "config.ru",
+					"settings":
+					{
+						"buffer_size": 95,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22,
+								22
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "router.rb",
+					"settings":
+					{
+						"buffer_size": 131,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33,
+								33
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "features/support/env.rb",
+					"settings":
+					{
+						"buffer_size": 207,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								95,
+								95
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "features/step_definitions/router_steps.rb",
+					"settings":
+					{
+						"buffer_size": 1366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								292,
+								292
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 140.0,
+	"status_bar_visible": true
+}
