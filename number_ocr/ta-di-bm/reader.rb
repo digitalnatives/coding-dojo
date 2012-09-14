@@ -1,4 +1,5 @@
-mapping = {
+# TODO the mapping can remains dictinctive even if we remove the first 3 columns
+mapping, seq = {
   ' . . ....' => 0,
   '     .  .' => 1,
   ' .  .... ' => 2,
@@ -9,20 +10,6 @@ mapping = {
   ' .   .  .' => 7,
   ' . ......' => 8,
   ' . ... ..' => 9,
-}
-
-seq, numbers = [[]], []
-File.open('input.txt', 'r').each_line do |line|
-  if line =~ /^$/
-    seq << []
-    next
-  end
-  seq.last << line.chomp.gsub!(/[^\s]/, '.')
-end
-
-seq.each do |s|
-  numbers << []
-  (0..24).step(3) { |i| numbers.last << mapping[s.map { |j| j[i..(i+2)] }.join] }
-  numbers[-1] = numbers.last.join.to_i
-end
-puts numbers
+}, [[]]
+File.open('input.txt', 'r').each_line { |line| line =~ /^$/ ? seq << [] : seq.last << line.chomp.gsub!(/[^\s]/, '.') }
+puts seq.map { |s| (0..24).step(3).map { |i| mapping[s.map { |j| j[i..(i+2)] }.join] }.join.to_i }
