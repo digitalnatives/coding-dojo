@@ -1,0 +1,18 @@
+
+
+BW Photo API
+============
+
+Create a REST API, which 
+- handles photos from url (from the web, ex: http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg)
+- or base64 upload (maximum 2 MB)
+- and with some metadata (title, camera, date, author)
+- convert the photos asynchronously to black&white and crop into square shape
+- give a list of the converted photos (with metadata)
+- and can filter the list with a "from" timestamp
+
+Then write a very simple and lightweight frontend, which 
+- use this API to upload photos (with metadata) from the user machine
+- and gives an automatically updated list of the newly converted photos
+
+Work with TDD, so always write rspec/cucumber tests first!
