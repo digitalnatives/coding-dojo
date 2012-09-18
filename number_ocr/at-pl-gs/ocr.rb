@@ -13,12 +13,16 @@ numbers = {
 #  "  | _| _||_||_ |_   ||_||_|",
 #  "  ||_  _| _| _||_|  ||_||_|"]
 def recognize_line( lines )
+  chars = []
   lines.each do |line|
-    puts line.inspect
-    line.split( /.{3}/ ) do |triplet|
-      puts triplet.inspect
+    char = 0
+    line.split(//).each_slice( 3 ) do |triplet|
+      chars[char] ||= []
+      chars[char] << triplet.join
+      char += 1
     end
   end
+  puts chars.join.inspect
 end
 
 File.open ARGV[0], 'r' do |f|
