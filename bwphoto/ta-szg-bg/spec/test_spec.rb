@@ -14,7 +14,40 @@ RSpec.configure do |config|
 end
 
 describe 'API' do
-	it "should" do
-		true.should eq(false)
+	it "upload" do
+		initial_count = Image.count
+		response = request("/image", {title:"title", camera:"camera", date:"date",
+		 author:"author,", picture:"picture", filename:"filename" }, "PUT")
+		(Image.count - initial_count).should eq(1)
+		response[:errors].count.should eq(0)
+		response[:status].should eq(200)
+	end
+
+	it "should return error for missing title parameter" do
+		initial_count = Image.count
+		response = request("/image", {camera:"camera", date:"date", author:"author",
+		 picture:"picture", filename:"filename" }, "PUT")
+		(Image.count - initial_count).should eq(0)
+		response[:errors][:title].should eq("")
+		response[:status].should eq(500)
+	end
+
+	it "should return error for missing filename parameter" do
+		initial_count = Image.count
+		response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
+		 picture:"picture"}, "PUT")
+		(Image.count - initial_count).should eq(0)
+		response[:errors][:filename].should eq("")
+		response[:status].should eq(500)
+	end
+
+	it "should return error for wrong filename" do
+		initial_count = Image.count
+		response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
+		 picture:"picture", filename:"filename" }, "PUT")
+		(Image.count - initial_count).should eq(0)
+		#hibaüzenetet kitölteni
+		response[:errors][:filename].should eq("")
+		response[:status].should eq(500)
 	end
 end
