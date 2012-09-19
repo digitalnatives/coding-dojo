@@ -4,6 +4,7 @@ require 'bundler'
 Bundler.setup
 
 Bundler.require(:default, ENV["RACK_ENV"].to_sym)
+$redis = Redis.connect
 
 Dir["./lib/**/*.rb"].each { |f| require f }
 
