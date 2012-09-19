@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @bwimage.name %>
+</p>
+
+<p>
+  <b>Camera:</b>
+  <%= @bwimage.camera %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @bwimage.date %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @bwimage.author %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @bwimage.url %>
+</p>
+
+
+<%= link_to 'Edit', edit_bwimage_path(@bwimage) %> |
+<%= link_to 'Back', bwimages_path %>

@@ -1,4 +1,6 @@
 BzsFbLp::Application.routes.draw do
+  resources :bwimages
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

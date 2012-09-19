@@ -1,0 +1,37 @@
+<%= form_for(@bwimage) do |f| %>
+  <% if @bwimage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bwimage.errors.count, "error") %> prohibited this bwimage from being saved:</h2>
+
+      <ul>
+      <% @bwimage.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :camera %><br />
+    <%= f.text_field :camera %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :author %><br />
+    <%= f.text_field :author %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
