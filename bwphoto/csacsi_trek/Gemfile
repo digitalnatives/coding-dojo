@@ -4,6 +4,9 @@ gem 'sinatra'
 
 gem 'rake'
 gem 'carrierwave'
+gem 'sidekiq'
+gem 'redis'
+gem 'datamapper'
 
 group :test do
   gem 'rspec'
