@@ -1,4 +1,12 @@
 BzsFbLp::Application.routes.draw do
+
+  namespace :api do
+
+    resources :bwimage, :only => [ :create, :delete, :index ] do
+      post :upload, :on => :collection
+    end
+  end
+
   resources :bwimages
 
   # The priority is based upon order of creation:
