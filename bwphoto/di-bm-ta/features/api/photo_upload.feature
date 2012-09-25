@@ -28,4 +28,30 @@ Feature: Photo upload
     Then I should get a response with status 200
     And I should have 1 photo(s) in the database
 
+  Scenario: Upload photo with missing file parameter
+    Given I post JSON to "/api/photos.json" with:
+    """
+      {
+        "camera": "Sony",
+        "title": "marmot_king",
+        "author": "Robert",
+        "date": "2012-08-01 12:45"
+      }
+    """
+    Then I should get a response with status 500
+    And I should have no photo in the database
 
+
+  Scenario: Upload photo with missing title parameter
+    Given I post JSON to "/api/photos.json" with:
+    """
+      {
+        "url": "http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg",
+        "camera": "Sony",
+        "title": "",
+        "author": "Robert",
+        "date": "2012-08-01 12:45"
+      }
+    """
+    Then I should get a response with status 500
+    And I should have no photo in the database
