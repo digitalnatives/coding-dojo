@@ -6,31 +6,87 @@ describe "GET 'upload'" do
 
   describe 'base64' do
 
-    before do
-      @file = File.open(File.join(Rails.root, "spec", "fixtures", "image.jpg"))
+    def valid_params
+      f = File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))
+      {
+        :file => Base64.encode64(f),
+        :title => 'Image'
+      }
     end
 
-    it 'should upload image with valid data' do
-      attrs = { :file => @file }
-      post 'upload', attrs
+    describe 'success' do
+
+      it 'should upload image with valid data' do
+        post 'upload', valid_params 
+
+      end
+
+    end
+
+    describe 'fail' do
+
+      it 'should have invalid base64 data' do
+      end
+      it 'missing title data' do
+          attrs = valid_params
+          attrs[:title] = nil
+          post :upload, attrs
+
+          assigns(:bwimage).should_not be_valid
+          assigns(response.body).should contain('error')
+      end
 
     end
 
   end # base64
-  
-    it "returns http success" do
-      attrs = {   }
-      post 'upload'
-      response.should be_success
+
+  describe 'http' do
+
+    def valid_params
+      {
+        :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg',
+        :title => 'Image'
+      }
     end
 
-  end # GET upload
-
-  describe "GET 'index'" do
-    it "returns http success" do
-      get 'index'
-      response.should be_success
+    describe 'success' do
+      it "returns http success" do
+        post 'upload', valid_params
+        response.should be_success
+      end
     end
+
+    describe 'fail' do
+
+        it 'has no url' do
+          attrs = valid_params
+          attrs[:url] = nil
+          post :upload, attrs
+
+          assigns(:bwimage).should_not be_valid
+          assigns(:bwimage).errors.should contain(:url)
+        end
+
+        it 'has no title' do
+          attrs = valid_params
+          attrs[:title] = nil
+          post :upload, attrs
+
+          assigns(:bwimage).should_not be_valid
+          assigns(response.body).should contain('error')
+        end
+
+    end
+
+  end # http
+
+end # GET upload
+
+describe "GET 'index'" do
+  it "returns http success" do
+    get 'index'
+    response.should be_success
+  end
   end
 
   describe "GET 'create'" do
