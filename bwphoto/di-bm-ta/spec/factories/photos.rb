@@ -7,6 +7,7 @@ FactoryGirl.define do
     camera ""
     title "This is an awesome photo"
     author ""
+    taken_at Time.now
     # photo { Rack::Test::UploadedFile.new ::Rails.root.join('spec/fixtures/photo.mp4') }
 
     trait :url do
