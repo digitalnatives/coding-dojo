@@ -8,13 +8,13 @@ FactoryGirl.define do
     title "This is an awesome photo"
     author ""
     taken_at Time.now
-    # photo { Rack::Test::UploadedFile.new ::Rails.root.join('spec/fixtures/photo.mp4') }
 
     trait :url do
-      # thumbnail { Rack::Test::UploadedFile.new ::Rails.root.join('spec/fixtures/bbb-300.jpg') }
+      url 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg'
     end
 
-    trait :base64 do
+    trait :photo do
+      photo { Rack::Test::UploadedFile.new ::Rails.root.join('spec/fixtures/photo.jpg') }
     end
   end
 end
