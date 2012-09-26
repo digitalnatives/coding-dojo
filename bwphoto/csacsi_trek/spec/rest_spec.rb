@@ -81,7 +81,7 @@ describe BWPhoto::Rest do
       end
 
       it 'should create a Sidekiq task' do
-        Sidekiq
+        pending #Sidekiq
       end
     end
     describe "with faliure" do
