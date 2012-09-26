@@ -11,9 +11,11 @@ module BWPhoto
     end
 
     get '/:id' do
+      nil
     end
 
     delete '/:id' do
+      nil
     end
 
   end
