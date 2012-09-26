@@ -70,6 +70,28 @@ describe 'API' do
     response[:status].should eq(500)
   end
 
+  it 'should list all images' do
+    initial_count = Image.count
+    response = request("/list", "GET")
+    (initial_count - response.count).should eq(0)
+  end
+
+  it 'should show an error where invalid image' do
+    response = request("/show/99999999999", "GET")
+    response.code.should eq('error')
+  end
+
+  it 'should show an error when showing unprocessed picture' do
+    i = Image.new(:picture => 'BASE64' )
+    response = request("/show/#{i.id}", "GET")
+    response.code.should eq('error')
+  end
+
+  it 'should show processed picture' do
+    i = Image.new(:processed_picture => 'BASE64' )
+    response = request("/show/#{i.id}", "GET")
+    response.should_not eq(nil)
+  end
 end
 
 describe "Model" do
@@ -105,7 +127,10 @@ describe "Worker" do
 
   it 'should call imagemagick' do
     img = Image.new({filename: '/blahblah.png'})
-    ImageMagick.should_recieve(:convert).with()
+    Magick.should_recieve(:crop_resized!)
     Worker.convert img.id, '/blahblah.png'
   end
+end
+
+describe "Worker" do
 end
