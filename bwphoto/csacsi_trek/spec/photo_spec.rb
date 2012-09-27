@@ -56,15 +56,15 @@ describe Photo do
       end
     end
   end
- 
+
   context '#download' do
     subject { stub(:photo, id:1, photo_url:'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg') }
     it 'creates new downloadworker job' do
       expect {
-        DownloadWorker.perform_async(subject.id, subject.photo_url)
+        DownloadWorker.perform_async( subject.photo_url, subject.tmp_path, subject.path )
       }.to change(DownloadWorker.jobs, :size).by(1)
     end
-    
+
     context 'instance is invalid or Sidekiq is down' do
       subject { stub( :photo, :valid? => false ) }
       it 'raise an error' do
@@ -78,7 +78,7 @@ describe Photo do
       subject { stub( :photo, :valid? => true, :path => '/image.jpg' ) }
       it 'puts the photo into Sidekiq worker' do
         expect {
-          ConverterWorker.perform_async(subject.path)
+          ConverterWorker.perform_async( subject.tmp_path, subject.path)
         }.to change(ConverterWorker.jobs, :size).by(1)
       end
     end
