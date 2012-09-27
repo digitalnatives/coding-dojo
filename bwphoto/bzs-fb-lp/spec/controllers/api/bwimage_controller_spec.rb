@@ -25,7 +25,7 @@ describe "GET 'upload'" do
 
     describe 'fail' do
 
-      it 'should have invalid base64 data' do
+processed_      it 'should have invalid base64 data' do
       end
       it 'missing title data' do
           attrs = valid_params
