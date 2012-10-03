@@ -13,73 +13,72 @@ describe Bwimage do
       end
     end
 
-    it 'should create a valid bwimage' do
-      Bwimage.create!(:title => 'title',  
-                      :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg', 
-                      :filename => 'some_file.png')
-      .should be_valid
+    describe 'base64' do
 
-      Bwimage.create!(:title => 'title',  
-                      :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
-                      :filename => 'some_file.png')
-      .should be_valid
-    end
+      let(:bw) {
+        Bwimage.create!(:title => 'title',  
+                        :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
+                        :filename => 'some_file.png')
+      }
 
-    it 'should create a new worker after create and have status queued' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg', 
-                      :filename => 'some_file.png')
+      it 'should create a file from base64 data and have status file_downloaded afterwards' do
+        bw.image.should be_exists
+        bw.status.should == "file_downloaded"
+      end
 
-      bw.should_receive(:queue_task)
-      bw.status.should == "queued"
-    end
+      it 'should crop and grayscale the image and have a processed status afterwards' do
+        bw.crop_and_grayscale
+        bw.status.should == "processed"
+        Base64.encode64(bw.image).should == Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "processed_image.jpg")))
+      end
 
-    it 'should create a file from base64 data and have status file_downloaded afterwards' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
-                      :filename => 'some_file.png')
-      
-      bw.image.should be_exists
-      bw.status.should == "file_downloaded"
-    end
+      it 'should note if processing failed' do
+        Bwimage.should have_queued(bw.id, :crop_and_grayscale)
+        Bwimage.should have_queue_size_of(1)
+        bw.status.should == "processing_failed"
+      end
 
-    it 'should download the image if url is present abd have status file_downloaded afterwards' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg', 
-                      :filename => 'some_file.png')
+    end # base64
 
-      bw.image.should be_exists
-      bw.status.should == "file_downloaded"
-    end
+    describe 'url' do
 
-    it 'should crop and grayscale the image and have a processed status afterwards' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
-                      :filename => 'some_file.png')
+      let(:bw) { 
+        Bwimage.create!(:title => 'title',  
+                        :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
+                        :filename => 'some_file.png')
 
-      bw.crop_and_grayscale
-      bw.status.should == "processed"
-      Base64.encode64(bw.image).should == Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "processed_image.jpg")))
-    end
+      }
 
-    it 'should note if file is missing on url' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :url => 'http://unexistent.com/8319/7992673887_a882d4e269_c.jpg', 
-                      :filename => 'some_file.png')
+      it 'should create a valid bwimage' do
+        Bwimage.create!(:title => 'title',  
+                        :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg', 
+                        :filename => 'some_file.png')
+        .should be_valid
 
-      bw.image.should_not be_exists
-      bw.status.should == "download_failed"
-    end
+        Bwimage.create!(:title => 'title',  
+                        :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "image.jpg"))), 
+                        :filename => 'some_file.png')
+        .should be_valid
+      end
 
-    it 'should note if processing failed' do
-      bw = Bwimage.create!(:title => 'title',  
-                      :file => Base64.encode64(File.read(File.join(Rails.root, "spec", "fixtures", "unexistent.jpg"))), 
-                      :filename => 'some_file.png')
+      it 'should create a new worker after create and have status queued' do
+        bw.should_receive(:queue_task)
+        bw.status.should == "queued"
+      end
 
-      Bwimage.should have_queued(bw.id, :crop_and_grayscale)
-      Bwimage.should have_queue_size_of(1)
-      bw.status.should == "processing_failed"
-    end
+
+      it 'should download the image if url is present abd have status file_downloaded afterwards' do
+        bw.image.should be_exists
+        bw.status.should == "file_downloaded"
+      end
+
+
+      it 'should note if file is missing on url' do
+        bw.image.should_not be_exists
+        bw.status.should == "download_failed"
+      end
+
+    end # url
 
   end # handling input
 
