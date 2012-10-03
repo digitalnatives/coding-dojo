@@ -1,25 +1,18 @@
-require 'rack'
-require 'json'
-require 'rubygems'
-require 'datamapper'
-require 'sinatra'
+require "rubygems"
+require "bundler/setup"
+Bundler.require(:default)
 
-DataMapper.setup(:default, :adapter => 'in_memory')
-
-class Image
-  include Datamapper::Resource
-
-  property :id, Serial
-  property :title, Text
-  property :camera, Text
-  property :date, DateTime
-  property :author, Text
-  property :picture, Text
-  property :filename, Text
-
-end
-
-DataMapper.finalize
+require './db'
 
 class RackApp < Sinatra::Application
+  get "/image" do
+  end
+  put "/image" do
+    img = Picture.new(request.params)
+    if img.save
+      {status: 200, errors: []}.to_json
+    else
+      {status: 500, errors: img.errors}.to_json
+    end
+  end
 end
