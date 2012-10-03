@@ -1,15 +1,16 @@
 class PhotoConverterWorker
   include Sidekiq::Worker
 
-  def perform(video_id)
+  def perform(photo_id)
+    download(photo_id)
+    convert(photo_id)
+  end
+
+  def download(photo_id)
 
   end
 
-  def download(video_id)
-
-  end
-
-  def convert(video_id)
+  def convert(photo_id)
 
   end
 

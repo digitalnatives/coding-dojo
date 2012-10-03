@@ -2,19 +2,41 @@ require 'spec_helper'
 
 describe PhotoConverterWorker do
 
-  context "new job with url" do
-    before :each do
-      @photo = FactoryGirl.build(:photo, :url).should be_valid
-    end
-
-    it "should download and save the photo" do
-    end
-  end
-
   context "new job" do
-    it "should reprocess the photo" do
-      @photo.photo
+    before :each do
+      @work = PhotoConverterWorker.new
+      @work.perform(1)
+      
+      # TODO: mock photo here
     end
-  end
 
+    it "should instantiate photo object" do
+      Photo.should_receive( :find ).with( 1 )
+    end
+
+    context "with url" do
+      it "should download the photo" do
+        @work.should_receive( :download )
+      end
+      
+      context "when downloading the photo" do
+        it "should call some http library" do
+          Curl::Easy.should_receive( :get )
+        end
+      end
+    end
+
+    context "with base64" do
+      it "shouldn't download the photo" do
+        @work.should_not_receive( :download )
+      end
+    end
+    
+    context "when converting a photo"
+      it "should call converter method" do
+        @work.should_receive( :convert )
+      end
+    end
+    
+  end
 end
