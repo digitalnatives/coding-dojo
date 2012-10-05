@@ -5,6 +5,9 @@ class Photo < ActiveRecord::Base
   validates :url, :presence => true, :unless => :photo_file_name_exists?
   validates :photo_file_name, :presence => true, :unless => :url_exists?
   
+  # attributes
+  attr_accessor :base64
+  
   private
   
   def photo_file_name_exists?
