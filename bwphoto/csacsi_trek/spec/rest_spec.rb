@@ -1,10 +1,9 @@
 require 'spec_helper'
 
+class Photo; end
 describe BWPhoto::Rest do
 
-  def app
-    @app ||= BWPhoto::Rest
-  end
+  let( :app ) { BWPhoto::Rest }
 
   describe "index" do
     it "should be successful" do
@@ -21,7 +20,7 @@ describe BWPhoto::Rest do
         last_response.should be_ok
       end
     end
-    context "with not existing photo" do
+    it "with not existing photo" do
       get "/123456789"
       last_response.should be_error
     end
