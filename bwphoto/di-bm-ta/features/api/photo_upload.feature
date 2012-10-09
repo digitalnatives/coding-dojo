@@ -8,7 +8,7 @@ Feature: Photo upload
         "camera": "Sony",
         "title": "marmot_king",
         "author": "Robert",
-        "date": "2012-08-01 12:45"
+        "taken_at": "2012-08-01 12:45"
       }
     """
     Then I should get a response with status 200
@@ -19,10 +19,11 @@ Feature: Photo upload
     """
       {
         "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkRDwwzVKRNWAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJRU5ErkJggg==",
+        "filename": "valami.jpg",
         "camera": "Sony",
         "title": "marmot_king",
         "author": "Robert",
-        "date": "2012-08-01 12:45"
+        "taken_at": "2012-08-01 12:45"
       }
     """
     Then I should get a response with status 200
@@ -35,10 +36,10 @@ Feature: Photo upload
         "camera": "Sony",
         "title": "marmot_king",
         "author": "Robert",
-        "date": "2012-08-01 12:45"
+        "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 500
+    Then I should get a response with status 422
     And I should have no photo in the database
 
 
@@ -50,8 +51,8 @@ Feature: Photo upload
         "camera": "Sony",
         "title": "",
         "author": "Robert",
-        "date": "2012-08-01 12:45"
+        "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 500
+    Then I should get a response with status 422
     And I should have no photo in the database

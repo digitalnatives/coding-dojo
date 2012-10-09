@@ -2,6 +2,7 @@ require "rubygems"
 require "bundler/setup"
 Bundler.require(:default)
 
+require 'sidekiq/testing'
 require 'rspec'
 
 `rm -rf db`
@@ -14,7 +15,9 @@ SMURF_DATA = 'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAAAB3RJTUUH1wUdBjAGm9
 
 def request(path, data, method)
   response = RestClient.send(method.downcase,"localhost:9292#{path}", data)
-  JSON.parse response.to_str, {:symbolize_names => true}
+  json = JSON.parse response.to_str, {:symbolize_names => true}
+  puts json
+  json
 end
 
 RSpec.configure do |config|
@@ -37,7 +40,7 @@ describe 'all' do
     it 'should convert base64' do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", picture: SMURF_DATA, filename:"filename" }, "PUT")
+       author:"author,", picture: SMURF_DATA, filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:status].should eq(200)
       response[:errors].count.should eq(0)
@@ -48,7 +51,7 @@ describe 'all' do
     it "should upload base64" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", picture:"picture", filename:"filename" }, "PUT")
+       author:"author,", picture:"picture", filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:errors].count.should eq(0)
       response[:status].should eq(200)
@@ -57,7 +60,7 @@ describe 'all' do
     it "should upload url" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", filename:"filename" }, "PUT")
+       author:"author,", filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:errors].count.should eq(0)
       response[:status].should eq(200)
@@ -66,7 +69,7 @@ describe 'all' do
     it "should return error for missing title parameter" do
       initial_count = Picture.all.length
       response = request("/image", {camera:"camera", date:"date", author:"author",
-       picture:"picture", filename:"filename" }, "PUT")
+       picture:"picture", filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
       response[:errors][:title].should eq("")
       response[:status].should eq(500)
@@ -75,7 +78,7 @@ describe 'all' do
     it "should return error for missing filename parameter" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
-       picture:"picture"}, "PUT")
+       picture:"picture"}, "POST")
       (Picture.all.length - initial_count).should eq(0)
       response[:errors][:filename].should eq("")
       response[:status].should eq(500)
@@ -84,7 +87,7 @@ describe 'all' do
     it "should return error for wrong filename" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
-        filename:"filename" }, "PUT")
+        filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
       #hibaüzenetet kitölteni
       response[:errors][:filename].should eq("")
@@ -94,7 +97,7 @@ describe 'all' do
     it "should return error for wrong base64" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
-       picture:"picture", filename:"filename" }, "PUT")
+       picture:"picture", filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
       #hibaüzenet
       response[:errors][:picture].should eq("")
@@ -127,53 +130,41 @@ describe 'all' do
 
   describe "Model" do
 
-    it 'convert should call Worker convert method' do
-      img = Picture.new({picture: 'base64'})
-      Worker.should_recieve(:convert).with(img.id, 'base64')
-      img.convert
-    end
-
     it 'status should be queued on creation' do
       img = Picture.new
       img.status.should eq('queued')
     end
 
     it 'status should be processed after conversion' do
-      img = Picture.new({picture: 'base64'})
-      Worker.should_recieve(:convert).with(img.id, 'base64')
-      img.convert do
-        igm.status.should eq('processed')
-      end
+      img = Picture.new({picture: SMURF_DATA, title: 'asd', filename: 'as'})
+      img.save
+      Worker.convert img.id
+      img.status.should eq('processed')
     end
 
   end
 
-
   describe "Worker" do
     it 'should add job' do
-      img = Picture.new({filename: '/blahblah.png'})
+      img = Picture.new({title: 'test', filename: ''})
       expect {
         Worker.perform_async(img.id)
       }.to change(Worker.jobs, :size).by(1)
     end
 
+    # TODO
     it 'should call imagemagick' do
-      img = Picture.new({filename: '/blahblah.png'})
-      Magick.should_recieve(:crop_resized!)
-      Worker.convert img.id, '/blahblah.png'
+      img = Picture.new({title: 'test', picture: SMURF_DATA, filename: 'filename'})
+      img.save
+      Magick::Image.should_receive(:read_inline).and_return [stub.as_null_object]
+      Worker.convert img.id
     end
 
-    it 'should convert base64' do
-      img = Picture.new({picture: 'base64,', filename: '/blahblah.png'})
-      Magick.should_recieve(:crop_resized!)
-      Worker.convert img.id, '/blahblah.png'
-    end
-
+    # TODO
     it 'should download from url' do
-      img = Picture.new({filename: '//blahblah.png'})
-      HTTP.should_recieve(:get)
-      Magick.should_recieve(:crop_resized!)
-      Worker.convert img.id, '/blahblah.png'
+      img = Picture.new({title: 'test', filename: 'http://bluebuddies.com/Smurf_Picture_and_Files/00002416/2012smurfs.jpg'})
+      img.save
+      Worker.convert img.id
     end
   end
 

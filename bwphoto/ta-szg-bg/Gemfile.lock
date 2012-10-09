@@ -21,6 +21,7 @@ GEM
       gherkin (~> 2.9.0)
       json (>= 1.4.6)
       term-ansicolor (>= 1.0.6)
+    curb (0.8.1)
     datamapper (1.0.2)
       dm-aggregates (= 1.0.2)
       dm-constraints (= 1.0.2)
@@ -68,6 +69,13 @@ GEM
     ffi (1.0.11)
     gherkin (2.9.3)
       json (>= 1.4.6)
+    grape (0.2.1)
+      hashie (~> 1.2)
+      multi_json
+      multi_xml
+      rack
+      rack-mount
+    hashie (1.2.0)
     http_parser.rb (0.5.3)
     json (1.6.6)
     json_pure (1.7.3)
@@ -75,6 +83,7 @@ GEM
       addressable
     mime-types (1.18)
     multi_json (1.3.5)
+    multi_xml (0.5.1)
     nokogiri (1.5.2)
     poltergeist (0.6.0)
       capybara (~> 1.0)
@@ -83,8 +92,8 @@ GEM
       http_parser.rb (~> 0.5.3)
       multi_json (~> 1.0)
     rack (1.4.1)
-    rack-protection (1.2.0)
-      rack
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
     rack-test (0.6.1)
       rack (>= 1.0)
     redis (3.0.1)
@@ -92,6 +101,7 @@ GEM
       redis (~> 3.0.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rmagick (2.13.1)
     rspec (2.8.0)
       rspec-core (~> 2.8.0)
       rspec-expectations (~> 2.8.0)
@@ -113,13 +123,8 @@ GEM
       multi_json (~> 1)
       redis (~> 3)
       redis-namespace
-    sinatra (1.3.3)
-      rack (~> 1.3, >= 1.3.6)
-      rack-protection (~> 1.2)
-      tilt (~> 1.3, >= 1.3.3)
     stringex (1.1.0)
     term-ansicolor (1.0.7)
-    tilt (1.3.3)
     timers (1.0.1)
     uuidtools (2.1.2)
     xpath (0.1.4)
@@ -131,11 +136,13 @@ PLATFORMS
 DEPENDENCIES
   capybara
   cucumber
+  curb
   datamapper
   dm-aggregates
   dm-yaml-adapter
+  grape
   poltergeist
   rest-client
+  rmagick
   rspec
   sidekiq
-  sinatra
