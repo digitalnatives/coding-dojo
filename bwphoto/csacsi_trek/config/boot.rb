@@ -2,6 +2,7 @@ ENV["RACK_ENV"] ||= "development"
 
 require 'bundler'
 Bundler.setup
+require 'data_mapper'
 
 Bundler.require(:default, ENV["RACK_ENV"].to_sym)
 $redis = Redis.connect

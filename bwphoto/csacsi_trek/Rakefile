@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 task :default => :help
 
 task :environment do
-  require File.join(File.dirname(__FILE__), 'boot')
+  require File.join(File.dirname(__FILE__), 'config', 'boot')
 end
 
 desc "Run specs"
