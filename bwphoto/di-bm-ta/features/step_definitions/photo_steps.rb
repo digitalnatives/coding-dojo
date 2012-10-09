@@ -1,5 +1,5 @@
 Given /^I post JSON to "(.*?)" with:$/ do |to, json|
-  post(to, JSON.parse(json), {"Content-type" => "application/json"})
+  post(to, { :data => json }, {"Content-type" => "application/json"})
 end
 
 Then /^I should get a response with status (\d+)$/ do |status|
@@ -15,7 +15,7 @@ Then /^I should have no photo in the database$/ do
 end
 
 Given /^the following photos exist:$/ do |table|
-  table.hashes.map { |hash| create(:photo, hash) }
+  table.hashes.map { |hash| FactoryGirl.create(:photo, hash) }
 end
 
 When /^I visit "(.*?)"$/ do |arg1|

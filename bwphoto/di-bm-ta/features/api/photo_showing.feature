@@ -1,7 +1,7 @@
 Feature: View photo
   Background:
     Given the following photos exist:
-      | id | camera | title   | author | date             | status     |
+      | id | camera | title   | author | taken_at         | status     |
       | 1  | Nikon  | Singing | Robert | 2012-08-01 12:00 | processed  |
       | 2  | Canon  | Jumping | Zdlena | 2012-08-01 12:00 | processing |
 

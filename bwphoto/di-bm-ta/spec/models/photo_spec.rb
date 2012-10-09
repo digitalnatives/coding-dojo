@@ -4,24 +4,32 @@ describe Photo do
 
   describe "before create" do
     context "image via url" do
+      before( :each ) do
+        @photo = FactoryGirl.build(:photo, :url)
+      end
+      
       it "should be valid" do
-        @photo = FactoryGirl.build(:photo, :url).should be_valid
+        @photo.should be_valid
       end
 
       it "should be fetch from url" do
         @photo.save
-        @photo.photo_file_name.should_not be_empty
+        @photo.photo_file_name.should_not be_blank
       end
     end
 
     context "image via base64" do
+      before( :each ) do
+        @photo = FactoryGirl.build(:photo, :base64)
+      end
+      
       it "should be valid" do
-        @photo = FactoryGirl.build(:photo, :base64).should be_valid
+        @photo.should be_valid
       end
 
       it "should be saved to a file" do
         @photo.save
-        @photo.photo_file_name.should_not be_empty
+        @photo.photo_file_name.should_not be_blank
       end
     end
   end
