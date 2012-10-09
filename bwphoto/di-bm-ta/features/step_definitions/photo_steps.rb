@@ -15,7 +15,7 @@ Then /^I should have no photo in the database$/ do
 end
 
 Given /^the following photos exist:$/ do |table|
-  table.hashes.map { |hash| create(:photo, hash) }
+  table.hashes.map { |hash| FactoryGirl.create(:photo, hash) }
 end
 
 When /^I visit "(.*?)"$/ do |arg1|

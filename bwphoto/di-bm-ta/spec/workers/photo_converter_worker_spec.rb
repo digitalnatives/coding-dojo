@@ -32,7 +32,7 @@ describe PhotoConverterWorker do
       end
     end
     
-    context "when converting a photo"
+    context "when converting a photo" do
       it "should call converter method" do
         @work.should_receive( :convert )
       end

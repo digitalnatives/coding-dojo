@@ -1,7 +1,7 @@
 Feature: User API
   Background:
     Given the following photos exist:
-      | id | camera | title   | author | date             |
+      | id | camera | title   | author | taken_at         |
       | 1  | Nikon  | Singing | Robert | 2012-08-01 12:00 |
       | 2  | Canon  | Jumping | Zdlena | 2012-08-01 12:00 |
       | 3  | Fuji   | Dancing | Zdlena | 2012-08-01 12:00 |
