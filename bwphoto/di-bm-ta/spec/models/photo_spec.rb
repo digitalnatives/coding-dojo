@@ -7,7 +7,7 @@ describe Photo do
       before( :each ) do
         @photo = FactoryGirl.build(:photo, :url)
       end
-      
+
       it "should be valid" do
         @photo.should be_valid
       end
@@ -22,7 +22,7 @@ describe Photo do
       before( :each ) do
         @photo = FactoryGirl.build(:photo, :base64)
       end
-      
+
       it "should be valid" do
         @photo.should be_valid
       end
@@ -51,7 +51,7 @@ describe Photo do
 
     context "after process" do
       before :each do
-        PhotoConverterWorker.jobs.drain
+        PhotoConverterWorker.drain
       end
 
       it "it's status should be processed" do
