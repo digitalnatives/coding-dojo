@@ -5,15 +5,31 @@ DataMapper.setup(:default, 'yaml:db')
 class Picture
   include DataMapper::Resource
 
-  property :id,       Serial
-  property :title,    Text,       :required => true
-  property :camera,   Text
-  property :date,     Text
-  property :author,   Text
-  property :picture,  Text,        :lazy => false
-  property :processed_picture, Text
-  property :filename, Text,       :required => true,:lazy => false
-  property :status,   Text,       :default => 'queued'
+  property :id,                 Serial
+  property :title,              Text,       :required => true
+  property :camera,             Text
+  property :date,               Text
+  property :author,             Text
+  property :picture,            Text,       :lazy => false
+  property :processed_picture,  Text,       :lazy => false
+  property :filename,           Text,       :required => true, :lazy => false
+  property :status,             Text,       :default => 'queued'
+
+  validates_with_method :validate_params
+
+  def validate_params
+    errors = []
+    unless self.picture.nil?
+      errors << "Wrong base64!" if Base64.decode64(self.picture) == ""
+    end
+    errors << "Only images can be uploaded!" unless self.filename =~ (/\.(png|jpg|gif)$/i)
+    if errors.length > 0
+      errors.unshift false
+      errors
+    else
+      true
+    end
+  end
 
 end
 

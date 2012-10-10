@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "rubygems"
 require "bundler/setup"
 Bundler.require(:default)
@@ -40,7 +42,7 @@ describe 'all' do
     it 'should convert base64' do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", picture: SMURF_DATA, filename:"filename" }, "POST")
+       author:"author,", picture: SMURF_DATA, filename:"filename.png" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:status].should eq(200)
       response[:errors].count.should eq(0)
@@ -51,7 +53,7 @@ describe 'all' do
     it "should upload base64" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", picture:"picture", filename:"filename" }, "POST")
+       author:"author", picture:"picture", filename:"filename.png" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:errors].count.should eq(0)
       response[:status].should eq(200)
@@ -60,7 +62,7 @@ describe 'all' do
     it "should upload url" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date",
-       author:"author,", filename:"filename" }, "POST")
+       author:"author,", filename:"filename.png" }, "POST")
       (Picture.all.length - initial_count).should eq(1)
       response[:errors].count.should eq(0)
       response[:status].should eq(200)
@@ -71,7 +73,7 @@ describe 'all' do
       response = request("/image", {camera:"camera", date:"date", author:"author",
        picture:"picture", filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
-      response[:errors][:title].should eq("")
+      response[:errors].include?("Title must not be blank").should eq(true)
       response[:status].should eq(500)
     end
 
@@ -80,7 +82,7 @@ describe 'all' do
       response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
        picture:"picture"}, "POST")
       (Picture.all.length - initial_count).should eq(0)
-      response[:errors][:filename].should eq("")
+      response[:errors].include?("Filename must not be blank").should eq(true)
       response[:status].should eq(500)
     end
 
@@ -90,17 +92,16 @@ describe 'all' do
         filename:"filename" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
       #hibaüzenetet kitölteni
-      response[:errors][:filename].should eq("")
+      response[:errors].include?("Only images can be uploaded!").should eq(true)
       response[:status].should eq(500)
     end
 
     it "should return error for wrong base64" do
       initial_count = Picture.all.length
       response = request("/image", {title:"title", camera:"camera", date:"date", author:"author",
-       picture:"picture", filename:"filename" }, "POST")
+       picture:"éáőúóóüö", filename:"filename.png" }, "POST")
       (Picture.all.length - initial_count).should eq(0)
-      #hibaüzenet
-      response[:errors][:picture].should eq("")
+      response[:errors].include?("Wrong base64!").should eq(true)
       response[:status].should eq(500)
     end
 
@@ -136,34 +137,39 @@ describe 'all' do
     end
 
     it 'status should be processed after conversion' do
-      img = Picture.new({picture: SMURF_DATA, title: 'asd', filename: 'as'})
+      img = Picture.new({picture: SMURF_DATA, title: 'asd', filename: 'as.png'})
       img.save
       Worker.convert img.id
-      img.status.should eq('processed')
+      Picture.get(img.id).status.should eq('processed')
     end
 
   end
 
   describe "Worker" do
     it 'should add job' do
-      img = Picture.new({title: 'test', filename: ''})
+      img = Picture.new({title: 'test', filename: 'asd.png'})
       expect {
         Worker.perform_async(img.id)
       }.to change(Worker.jobs, :size).by(1)
     end
 
-    # TODO
     it 'should call imagemagick' do
-      img = Picture.new({title: 'test', picture: SMURF_DATA, filename: 'filename'})
+      img = Picture.new({title: 'test', picture: SMURF_DATA, filename: 'filename.png'})
       img.save
       Magick::Image.should_receive(:read_inline).and_return [stub.as_null_object]
       Worker.convert img.id
     end
 
-    # TODO
+    class FakeResponse
+      def body_str
+        Base64.decode64(SMURF_DATA)
+      end
+    end
+
     it 'should download from url' do
       img = Picture.new({title: 'test', filename: 'http://bluebuddies.com/Smurf_Picture_and_Files/00002416/2012smurfs.jpg'})
       img.save
+      Curl::Easy.should_receive(:perform).and_return FakeResponse.new
       Worker.convert img.id
     end
   end
