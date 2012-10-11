@@ -4,9 +4,12 @@ gem 'sinatra'
 
 gem 'rake'
 gem 'carrierwave'
+gem 'carrierwave-datamapper', :require => 'carrierwave/datamapper'
+
 gem 'sidekiq'
 gem 'redis'
 gem 'datamapper'
+gem 'mini_magick'
 gem 'dm-postgres-adapter'
 gem 'activesupport'
 

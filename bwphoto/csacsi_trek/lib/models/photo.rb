@@ -1,3 +1,4 @@
+require_relative '../uploaders/image_uploader'
 class Photo
   include DataMapper::Resource
 
@@ -5,7 +6,7 @@ class Photo
   property :title,       String
   property :camera, String
   property :author, String
-  property :photo, String
+  property :image, String
   property :photo_content_type, String
   property :authored_at, DateTime
   property :created_at, DateTime
@@ -40,20 +41,12 @@ class Photo
     end
   end
 
-  def tmp_path
-    "/tmp/#{id}.tmp.jpg"
+  mount_uploader :image, ImageUploader
+
+  # http://code.dblock.org/carrierwave-delayjob-processing-of-selected-versions
+  def recreate_delayed_versions!
+    image.is_processing_delayed = true
+    image.recreate_versions!
   end
 
-  def photo_path
-    "/public/photos/#{id}.tmp.jpg"
-  end
-
-  def photo_url
-    "/photos/#{id}.tmp.jpg"
-  end
-
-  private
-  def set_identificator
-    self.identificator = SecureRandom.hex( 8 )
-  end
 end
