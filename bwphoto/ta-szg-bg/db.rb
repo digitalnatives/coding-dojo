@@ -41,19 +41,23 @@ class Worker
 	def self.convert(id)
     img = Picture.get(id)
     content = img.picture
-    unless content
-      content = Base64.encode64(Curl::Easy.perform(img.filename).body_str)
+    begin
+      unless content
+        content = Base64.encode64(Curl::Easy.perform(img.filename).body_str)
+      end
+      if content
+        image = Magick::Image.read_inline(content).first
+        image.crop_resized!(100,100)
+        image.quantize(256,Magick::GRAYColorspace)
+        img.update({
+          processed_picture: Base64.encode64(image.to_blob),
+          status: 'processed'
+        })
+      end
+    rescue
+      img.update({status: 'failed'})
     end
-    if content
-      image = Magick::Image.read_inline(content).first
-      image.crop_resized!(100,100)
-      image.quantize(256,Magick::GRAYColorspace)
-      img.update({
-        processed_picture: Base64.encode64(image.to_blob),
-        status: 'processed'
-      })
-      img.save
-    end
+    img.save
 	end
 end
 
