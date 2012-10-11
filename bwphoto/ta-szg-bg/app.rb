@@ -8,9 +8,23 @@ class RackApp < Grape::API
   format :json
 
   resource :image do
-    get do
-      {test: 'asd'}
+    get ':id' do
+      p = Picture.get(params[:id])
+      if p.nil?
+        {status:500, errors: ['Invalid picture id!']}
+      else
+        if p.status == 'processed'
+	  p.to_json
+        else
+          {status:500, errors: ['Unprocessed picture!']}
+        end
+      end
     end
+
+    get do
+      Picture.all.to_json
+    end
+
     post do
       img = Picture.new({
         id: params[:id],
