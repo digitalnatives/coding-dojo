@@ -13,8 +13,10 @@ describe Photo do
       end
 
       it "should be fetch from url" do
+        pending
+        
         @photo.save
-        @photo.photo_file_name.should_not be_blank
+        @photo.photo_file_size.should be > 0
       end
     end
 
@@ -29,7 +31,7 @@ describe Photo do
 
       it "should be saved to a file" do
         @photo.save
-        @photo.photo_file_name.should_not be_blank
+        @photo.photo_file_size.should be > 0
       end
     end
   end
