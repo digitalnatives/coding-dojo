@@ -1,0 +1,2 @@
+sidekiq: bundle exec sidekiq -r lib/workers
+web: rackup config.ru

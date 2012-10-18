@@ -1,28 +1,6 @@
 class ImageUploader < CarrierWave::Uploader::Base
-
   include CarrierWave::MiniMagick
-
-  class FilelessIO < StringIO
-    attr_accessor :original_filename
-    attr_accessor :content_type
-  end
-
-  before :cache, :convert_base64
-
-  def convert_base64(file)
-    if file.respond_to?(:original_filename) &&
-       file.original_filename.match(/^base64:/)
-      fname = file.original_filename.gsub(/^base64:/, '')
-      ctype = file.content_type
-      decoded = Base64.decode64(file.read)
-      file.file.tempfile.close!
-      decoded = FilelessIO.new(decoded)
-      decoded.original_filename = fname
-      decoded.content_type = ctype
-      file.__send__ :file=, decoded
-    end
-    file
-  end
+  include ::CarrierWave::Backgrounder::Delay
 
   def is_processing_delayed?(img = nil)
     !! @is_processing_delayed
@@ -37,11 +15,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   # Create different versions of your uploaded files:
-  version :small, :if => :is_processing_delayed? do
-    process :resize_to_limit => [100, 100]
-  end
-
-  version :gray, :from_version => :small, :if => :is_processing_delayed? do
+  version :small_gray, :if => :is_processing_delayed? do
+    process :resize_to_fill => [100, 100]
     process :convert_to_grayscale
   end
 
