@@ -22,6 +22,7 @@ GEM
       json (>= 1.4.6)
       term-ansicolor (>= 1.0.6)
     curb (0.8.1)
+    daemons (1.1.9)
     datamapper (1.0.2)
       dm-aggregates (= 1.0.2)
       dm-constraints (= 1.0.2)
@@ -123,8 +124,16 @@ GEM
       multi_json (~> 1)
       redis (~> 3)
       redis-namespace
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     stringex (1.1.0)
     term-ansicolor (1.0.7)
+    thin (1.4.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     timers (1.0.1)
     uuidtools (2.1.2)
     xpath (0.1.4)
@@ -146,3 +155,5 @@ DEPENDENCIES
   rmagick
   rspec
   sidekiq
+  simplecov
+  thin

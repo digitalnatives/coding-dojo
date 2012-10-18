@@ -35,9 +35,6 @@ end
 
 class Worker
   include Sidekiq::Worker
-	def perform(id)
-    Worker.perform_async id
-	end
 	def self.convert(id)
     img = Picture.get(id)
     content = img.picture

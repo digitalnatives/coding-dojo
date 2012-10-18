@@ -11,3 +11,5 @@ gem 'rest-client', :require => 'rest_client'
 gem 'grape'
 gem 'rmagick', :require => 'RMagick'
 gem 'curb'
+gem 'simplecov', :require => false
+gem 'thin'

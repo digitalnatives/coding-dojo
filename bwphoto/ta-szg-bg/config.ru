@@ -4,4 +4,11 @@ Bundler.require(:default)
 
 require './app'
 
-run RackApp
+class HelloWorld
+  def self.call(env)
+  	puts env
+    return [200, {}, ["Hello world!"]]
+  end
+end
+
+run HelloWorld
