@@ -24,14 +24,13 @@ class Photo < ActiveRecord::Base
 
   def process_base64
     return unless self.base64.present?
-    
+
     logger.debug "processing base64"
-    
-    StringIO.open(Base64.decode64(base64)) do |data|
-      data.original_file_name = self.original_file_name
-      data.content_type = self.original_file_name
-      self.photo = data
-    end
+    dst = Tempfile.new(self.original_file_name)
+    dst.binmode
+    dst.write Base64.decode64(base64)
+    dst.close
+    self.photo = File.new(dst,'r')
   end
 
   def photo_file_name_exists?
