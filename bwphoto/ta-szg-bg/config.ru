@@ -4,11 +4,11 @@ Bundler.require(:default)
 
 require './app'
 
-class HelloWorld
-  def self.call(env)
-  	puts env
-    return [200, {}, ["Hello world!"]]
-  end
+
+app = Rack::Builder.new do
+	use Faye::RackAdapter, 	:mount => '/faye'
+	use Rack::Static, :urls => ["/app"]
+	run RackApp
 end
 
-run HelloWorld
+run app

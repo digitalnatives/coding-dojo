@@ -5,6 +5,7 @@ Bundler.require(:default)
 require './db'
 
 class RackApp < Grape::API
+
   format :json
 
   resource :image do

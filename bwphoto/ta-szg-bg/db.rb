@@ -33,6 +33,10 @@ class Picture
 
 end
 
+EM.next_tick do
+  $faye_client = Faye::Client.new 'http://localhost:3000/faye'
+end
+
 class Worker
   include Sidekiq::Worker
 	def self.convert(id)
@@ -50,6 +54,7 @@ class Worker
           processed_picture: Base64.encode64(image.to_blob),
           status: 'processed'
         })
+        $faye_client.publish "/images", img
       end
     rescue
       img.update({status: 'failed'})

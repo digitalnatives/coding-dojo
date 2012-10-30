@@ -13,3 +13,4 @@ gem 'rmagick', :require => 'RMagick'
 gem 'curb'
 gem 'simplecov', :require => false
 gem 'thin'
+gem 'faye'
