@@ -1,0 +1,14 @@
+<h1>Listing Bwimages</h1>
+
+<div id="list">
+<% for bwimage in @bwimages: %>
+  <div class="item" data-id="<%= bwimage.id %>">
+    <a data-type="show"><%= bwimage.title %></a>
+    
+    <a data-type="edit">Edit</a> 
+    <a data-type="destroy">Destroy</a>
+  </div>
+<% end %>
+</div>
+
+<p><a data-type="new">New Bwimage</a></p>
