@@ -5,15 +5,18 @@ class PhotoConverterWorker
 
   def perform(photo_id)
     @photo = Photo.find(photo_id)
-    download(photo_id) if @photo.url.present?
-    convert(photo_id)
+    
+    download if @photo.url.present?
+    convert
+
+    @photo.update_attribute(:status, "processed")
   end
 
-  def download(photo_id)
+  def download
     @photo.photo = open(@photo.url).read
   end
 
-  def convert(photo_id)
+  def convert
 
   end
 
