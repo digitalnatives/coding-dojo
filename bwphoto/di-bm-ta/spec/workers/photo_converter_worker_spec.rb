@@ -4,14 +4,14 @@ describe PhotoConverterWorker do
 
   context "new job" do
     before :each do
-      @work = PhotoConverterWorker.new
-      @work.perform(1)
-      
       # TODO: mock photo here
     end
 
     it "should instantiate photo object" do
-      Photo.should_receive( :find ).with( 1 )
+      Photo.should_receive( :find ).with( 1 ).and_return( FactoryGirl.create(:photo, :url) )
+
+      @work = PhotoConverterWorker.new
+      @work.perform(1)
     end
 
     context "with url" do

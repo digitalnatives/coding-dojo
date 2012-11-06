@@ -1,0 +1,18 @@
+curl -X POST -d @spec/fixtures/photo_base64.txt  http://localhost:3000/api/bwimages
+curl -i -X POST -d "{\"url\":\"http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg\"}" http://localhost:3000/api/bwimages
+
+# JSON
+curl -X POST -H "Content-Type: application/json" -d @spec/fixtures/photo_base64.json.txt http://localhost:3000/api/bwimages
+curl -i -X POST -d "bwimage={\"title\":\"Picture title\",\"author\":\"John Doe\",\"camera\":\"Nikon\",\"taken_at\":\"2012-10-20T23:24:52+02:00\",\"url\":\"http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg\"}" http://localhost:3000/api/bwimages
+
+# once
+c = new App.Bwimages({ el: $("#spine")})
+c.show.el = $("#spine")
+
+# multiple times
+c.show.render()
+
+
+# 
+# Tries
+c.show.appendTo($("#spine"))

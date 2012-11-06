@@ -1,0 +1,10 @@
+<h1>Show Bwimage</h1>
+
+<a data-type="edit">Edit</a> <a data-type="back">Back</a>
+
+<p>Title: <%= @title %></p>
+<p>Camera: <%= @camera %></p>
+<p>Taken At: <%= @taken_at %></p>
+<p>Author: <%= @author %></p>
+<p>Status: <%= @status %></p>
+<p>Url: <%= @url %></p>

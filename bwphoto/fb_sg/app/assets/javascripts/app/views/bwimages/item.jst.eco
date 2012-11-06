@@ -1,0 +1,6 @@
+<div class="item" data-id="<%= @id %>">
+<a data-type="show"><%= @title %></a>
+
+<a data-type="edit">Edit</a> 
+<a data-type="destroy">Destroy</a>
+</div>

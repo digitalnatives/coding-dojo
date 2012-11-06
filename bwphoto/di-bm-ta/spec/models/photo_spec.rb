@@ -11,13 +11,6 @@ describe Photo do
       it "should be valid" do
         @photo.should be_valid
       end
-
-      it "should be fetch from url" do
-        pending
-
-        @photo.save
-        @photo.photo_file_size.should be > 0
-      end
     end
 
     context "image via base64" do
@@ -38,15 +31,16 @@ describe Photo do
 
   describe "after create" do
 
+    before(:each) do
+      @photo = FactoryGirl.create :photo, :base64
+    end
+
     context "before process" do
       it "it's status should be queued" do
-        @photo = FactoryGirl.create :photo, :base64
         @photo.status.should == 'queued'
       end
 
       it "should create a background worker" do
-        FactoryGirl.create :photo, :base64
-        sleep 2
         PhotoConverterWorker.jobs.size.should == 1
       end
     end
@@ -61,7 +55,7 @@ describe Photo do
       end
 
       it "shouldn't be any background job" do
-        PhotoConverterWorker.jobs.size.should == 1
+        PhotoConverterWorker.jobs.size.should == 0
       end
     end
   end

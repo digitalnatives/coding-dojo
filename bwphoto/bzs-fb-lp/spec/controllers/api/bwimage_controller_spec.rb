@@ -18,7 +18,7 @@ describe "GET 'upload'" do
 
       it 'should upload image with valid data' do
         post 'upload', valid_params 
-
+        assigns(:bwimage).should be_persisted
       end
 
     end
@@ -30,7 +30,7 @@ describe "GET 'upload'" do
       it 'missing title data' do
           attrs = valid_params
           attrs[:title] = nil
-          post :upload, attrs
+          post :upload, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(response.body).should contain('error')
@@ -61,7 +61,7 @@ describe "GET 'upload'" do
         it 'has no url' do
           attrs = valid_params
           attrs[:url] = nil
-          post :upload, attrs
+          post :upload, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(:bwimage).errors.should contain(:url)
@@ -70,7 +70,7 @@ describe "GET 'upload'" do
         it 'has no title' do
           attrs = valid_params
           attrs[:title] = nil
-          post :upload, attrs
+          post :upload, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(response.body).should contain('error')
