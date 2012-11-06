@@ -54,7 +54,7 @@ class Worker
           processed_picture: Base64.encode64(image.to_blob),
           status: 'processed'
         })
-        $faye_client.publish "/images", img
+        $faye_client.publish "/images", img if $faye_client
       end
     rescue
       img.update({status: 'failed'})

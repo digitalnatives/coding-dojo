@@ -9,9 +9,8 @@ SimpleCov.command_name 'test:db'
 SimpleCov.start
 
 
-`rm -rf db`
-
 require './app'
+Picture.all.destroy
 
 $app = RackApp.new
 
