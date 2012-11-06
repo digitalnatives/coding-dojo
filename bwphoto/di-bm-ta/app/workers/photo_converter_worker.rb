@@ -5,7 +5,7 @@ class PhotoConverterWorker
 
   def perform(photo_id)
     @photo = Photo.find(photo_id)
-    
+
     download if @photo.url.present?
     convert
 
@@ -13,11 +13,26 @@ class PhotoConverterWorker
   end
 
   def download
-    @photo.photo = open(@photo.url).read
+    url = @photo.url
+    extname = File.extname(url)
+    basename = File.basename(url, extname)
+
+    file = Tempfile.new([basename, extname])
+    file.binmode
+
+    open(URI.parse(url)) do |data|
+      file.write data.read
+    end
+
+    file.rewind
+
+    @photo.photo = file
   end
 
   def convert
 
   end
+
+
 
 end
