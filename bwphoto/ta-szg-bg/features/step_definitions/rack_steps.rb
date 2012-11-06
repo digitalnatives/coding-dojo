@@ -56,6 +56,7 @@ When /^I fill title with (.*)$/ do |title|
 end
 
 When /^I select a file$/ do
+	attach_file("input[type=file]", "./smurf.jpg")
 end
 
 Then /^I should see a success$/ do
@@ -68,7 +69,15 @@ When /^I fill url with (.*)$/ do |url|
 end
 
 When /^I wait for faye event$/ do
+	x = 0
+	begin
+		result = page.evaluate_script("new_picture_shown = true")
+		sleep 1
+		x += 1
+	end while result == "new item" or x == 100
 end
 
 Then /^I see the uploaded picture in the list$/ do
+	visible = page.evaluate_script("document.querySelectorAll('li:last-child').length")
+	visible.should_be 1
 end
