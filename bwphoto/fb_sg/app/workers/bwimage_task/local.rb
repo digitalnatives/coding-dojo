@@ -1,10 +1,10 @@
 module BwimageTask
-  class Local 
+  class Local
     @queue = :local
 
     def self.perform(id)
       bwimage = Bwimage.find(id)
-      bwimage.recreate_delayed_versions!
+      bwimage.process!
     end
   end
 end
