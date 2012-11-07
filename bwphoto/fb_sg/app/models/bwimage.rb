@@ -27,7 +27,7 @@ class Bwimage < ActiveRecord::Base
     end
 
     event :process do
-      transitions :from => [:draft, :downloading]
+      transitions :from => [:draft, :downloading], :to => :processing
     end
 
     event :finish do
