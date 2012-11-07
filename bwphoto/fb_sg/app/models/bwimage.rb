@@ -6,15 +6,39 @@ class Bwimage < ActiveRecord::Base
 
   mount_uploader :photo, PhotoUploader
 
-  #STATUSES = [ 'draft', 'downloading', 'processing', 'finished', 'download failed', 'processing failed' ]
-
   #after_save :process_photo
 
   validates :title, presence: true
   validates :author, presence: true
   validates :camera, presence: true
   validates :taken_at, presence: true
-  validates :status, inclusion: { :in => STATUSES }
+
+  include AASM
+  aasm :column => 'status' do
+    state :draft, :initial => true
+    state :downloading
+    state :processing, :enter => :recreate_delayed_versions!
+    state :finished
+    state :download_failed
+    state :processing_failed
+
+    event :download do
+      transitions :from => :draft, :to => :downloading
+    end
+
+    event :process do
+      transitions :from => [:draft, :downloading], :to => :processing
+    end
+
+    event :finish do
+      transitions :from => :processing, :to => :finished
+    end
+
+    event :fail do
+      transitions :from => :downloading, :to => :download_failed
+      transitions :from => :processing, :to => :processing_failed
+    end
+  end
 
   # http://code.dblock.org/carrierwave-delayjob-processing-of-selected-versions
   def recreate_delayed_versions!

@@ -6,7 +6,7 @@ end
 describe BwimageTask::Remote do
 
   describe 'perform' do
-    
+
     let(:bwimage) { stub.as_null_object }
 
     it 'should find image' do
@@ -25,7 +25,7 @@ describe BwimageTask::Remote do
       bwimage.should_receive(:download!)
       BwimageTask::Remote.perform(1, "http://example.com/image.jpg")
     end
-    
+
   end # perform
 
 end
