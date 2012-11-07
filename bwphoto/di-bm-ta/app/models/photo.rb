@@ -14,7 +14,32 @@ class Photo < ActiveRecord::Base
   after_commit :start_worker, on: :create
 
   # extensions
-  has_attached_file :photo
+  has_attached_file :photo,
+                    :styles => {
+                      :converted => { :geometry =>"100x100#", :processors => [:crop, :grayscale] }
+                    }
+
+  def crop_x
+    0
+  end
+  
+  def crop_y
+    0
+  end
+  
+  def crop_w
+    self.smaller_side
+  end
+  
+  def crop_h
+    self.smaller_side
+  end
+  
+  def smaller_side
+    geo = Paperclip::Geometry.from_file(photo(:original))
+
+    [geo.width, geo.height].min
+  end
 
   private
 
