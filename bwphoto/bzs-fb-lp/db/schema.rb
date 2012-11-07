@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20120919075511) do
     t.string   "status"
     t.string   "title"
     t.string   "filename"
+    t.string   "content_type"
     t.string   "camera"
     t.datetime "date"
     t.string   "author"

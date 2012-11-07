@@ -89,20 +89,25 @@ describe Bwimage do
   end # handling input
 
   describe 'validate attributes' do
+    let(:bw) { 
+      Bwimage.new(:title => 'title',  
+                      :url => 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg',
+                      :filename => 'some_file.png',
+                      :content_type => 'image/png')
 
-    it 'should have a valid url if present' do
+    }
+
+    describe 'should have a valid url if present' do
       it 'should accept nil' do
+        bw.url = nil
+        bw.should be_valid
       end
       it 'should accept a valid url format' do
+        bw.should be_valid
       end
       it 'should not accept invalid url format' do
+        bw.url = 'htttp://com/8319/7992673887_a882d4e269_c.jpg'
       end
-    end
-
-    it 'should have a valid filename if url is not present' do
-    end
-
-    it 'should have a valid mine_type if url is not present' do
     end
   end
 
