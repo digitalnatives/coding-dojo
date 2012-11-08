@@ -33,33 +33,36 @@ class Picture
 
 end
 
-EM.next_tick do
-  $faye_client = Faye::Client.new 'http://localhost:3000/faye'
-end
-
 class Worker
   include Sidekiq::Worker
-	def self.convert(id)
+
+  def perform(id)
+    self.convert id
+  end
+
+	def convert(id)
+    puts 'Converting picture --------> '+id.to_s
     img = Picture.get(id)
-    content = img.picture
-    begin
-      unless content
-        content = Base64.encode64(Curl::Easy.perform(img.filename).body_str)
+    if img
+      content = img.picture
+      begin
+        unless content
+          content = Base64.encode64(Curl::Easy.perform(img.filename).body_str)
+        end
+        if content
+          image = Magick::Image.read_inline(content).first
+          image.crop_resized!(100,100)
+          image = image.quantize(256,Magick::GRAYColorspace)
+          img.update({
+            processed_picture: Base64.encode64(image.to_blob),
+            status: 'processed'
+          })
+        end
+      rescue
+        img.update({status: 'failed'})
       end
-      if content
-        image = Magick::Image.read_inline(content).first
-        image.crop_resized!(100,100)
-        image.quantize(256,Magick::GRAYColorspace)
-        img.update({
-          processed_picture: Base64.encode64(image.to_blob),
-          status: 'processed'
-        })
-        $faye_client.publish "/images", img if $faye_client
-      end
-    rescue
-      img.update({status: 'failed'})
+      img.save
     end
-    img.save
 	end
 end
 

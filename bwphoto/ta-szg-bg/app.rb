@@ -23,7 +23,7 @@ class RackApp < Grape::API
     end
 
     get do
-      Picture.all.to_json
+      Picture.all(:status => 'processed').to_json
     end
 
     post do
