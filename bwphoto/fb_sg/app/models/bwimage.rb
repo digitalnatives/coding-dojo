@@ -27,7 +27,7 @@ class Bwimage < ActiveRecord::Base
     end
 
     event :process do
-      transitions :from => [:draft, :downloading]
+      transitions :from => [:draft, :downloading], :to => :processing
     end
 
     event :finish do
@@ -35,8 +35,8 @@ class Bwimage < ActiveRecord::Base
     end
 
     event :fail do
-      transitions :from => :downloading, :to => :download_failed
-      transitions :from => :processing, :to => :processing_failed
+      transitions :from => :draft, :to => :download_failed
+      transitions :from => :downloading, :to => :processing_failed
     end
   end
 
@@ -44,6 +44,8 @@ class Bwimage < ActiveRecord::Base
   def recreate_delayed_versions!
     photo.is_processing_delayed = true
     photo.recreate_versions!
+  rescue
+    fail!
   end
 
   def process_photo

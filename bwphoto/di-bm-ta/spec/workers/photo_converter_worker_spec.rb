@@ -4,39 +4,63 @@ describe PhotoConverterWorker do
 
   context "new job" do
     before :each do
-      # TODO: mock photo here
+      @work = PhotoConverterWorker.new
+    end
+
+    after :each do
+      @work.perform(1)
+      # TODO: mock xphoto here
     end
 
     it "should instantiate photo object" do
       Photo.should_receive( :find ).with( 1 ).and_return( FactoryGirl.create(:photo, :url) )
-
-      @work = PhotoConverterWorker.new
-      @work.perform(1)
     end
-
-    context "with url" do
-      it "should download the photo" do
-        @work.should_receive( :download )
-      end
-      
-      context "when downloading the photo" do
-        it "should call some http library" do
-          Curl::Easy.should_receive( :get )
-        end
-      end
-    end
-
-    context "with base64" do
-      it "shouldn't download the photo" do
-        @work.should_not_receive( :download )
-      end
-    end
-    
-    context "when converting a photo" do
-      it "should call converter method" do
-        @work.should_receive( :convert )
-      end
-    end
-    
   end
+
+  context "with url" do
+    before :each do
+      @photo = FactoryGirl.create :photo, :url
+      @job = PhotoConverterWorker.jobs.first
+      @work = @job['class'].new
+    end
+
+    after :each do
+      @work.perform(*@job['args'])
+      # TODO: mock xphoto here
+    end
+
+    it "should download the photo" do
+      @work.should_receive( :download )
+    end
+
+    it "should call some http library" do
+      @work.should_receive( :open )
+    end
+
+    it "should call converter method" do
+      @work.should_receive( :convert )
+    end
+  end
+
+  context "with base64" do
+    before :each do
+      @photo = FactoryGirl.create :photo, :base64
+      @job = PhotoConverterWorker.jobs.first
+      @work = @job['class'].new
+    end
+
+    after :each do
+      @work.perform(*@job['args'])
+      # TODO: mock xphoto here
+    end
+
+    it "shouldn't download the photo" do
+      @work.should_not_receive( :download )
+    end
+
+    it "should call converter method" do
+      @work.should_receive( :convert )
+    end
+  end
+
 end

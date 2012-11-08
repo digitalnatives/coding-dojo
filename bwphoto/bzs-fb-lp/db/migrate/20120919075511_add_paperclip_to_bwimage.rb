@@ -1,9 +1,9 @@
 class AddPaperclipToBwimage < ActiveRecord::Migration
   def self.up
-    add_attachment :bwimage, :image
+    add_attachment :bwimages, :image
   end
 
   def self.down
-    remove_attachment :bwimage, :image
+    remove_attachment :bwimages, :image
   end
 end
