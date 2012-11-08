@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sidekiq/testing'
 
 describe Bwimage do
 
@@ -61,9 +62,10 @@ describe Bwimage do
         bw.should be_valid
       end
 
-      it 'should create a new worker after create and have status queued' do
-        bw.should_receive(:queue_task)
-        bw.status.should == "queued"
+      it 'should create a new worker after create' do
+        expect {
+          HardWorker.perform_async(bw)
+        }.to change(HardWorker.jobs, :size).by(1)
       end
 
 
@@ -79,7 +81,7 @@ describe Bwimage do
                         :url => 'http://valami123.hu',
                         :filename => 'some_file.png',
                         :content_type => 'image/png')
-        # ... start process here 
+        bw.download_image_from_url
         bw.image.should_not be_exists
         bw.status.should == "download_failed"
       end

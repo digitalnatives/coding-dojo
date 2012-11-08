@@ -10,6 +10,7 @@ class Bwimage < ActiveRecord::Base
 	has_attached_file :image, :styles => { :thumbnail => "x100" }
 
 	after_initialize :decode_base64_image, :if => lambda{|bwimage| bwimage.file.present?}
+  after_create :start_worker
 
   def crop_and_grayscale
   	thumb_path = self.image.path(:thumbnail)
@@ -18,28 +19,31 @@ class Bwimage < ActiveRecord::Base
   end
 
   def download_image_from_url
-    if url
-      original_filename = File.basename(url)
-      temp_dir_path = File.join(Rails.root, "tmp", Time.now.to_i.to_s)
-      FileUtils.mkdir_p(temp_dir_path)
-      
-      tf = File.open(File.join(temp_dir_path, filename), 'w')
-      tf.write open(url).read.force_encoding("UTF-8")
-      tf.class_eval do
-        attr_accessor :content_type, :filename
-      end
-      tf.filename = original_filename
-      tf.content_type = self.content_type
+    begin
+      if url
+        original_filename = File.basename(url)
+        temp_dir_path = File.join(Rails.root, "tmp", Time.now.to_i.to_s)
+        FileUtils.mkdir_p(temp_dir_path)
+        
+        tf = File.open(File.join(temp_dir_path, filename), 'w')
+        tf.write open(url).read.force_encoding("UTF-8")
+        tf.class_eval do
+          attr_accessor :content_type, :filename
+        end
+        tf.filename = original_filename
+        tf.content_type = self.content_type
 
-      update_attribute(:filename, original_filename)
-      self.image = tf
-      self.save
-      tf.close
+        update_attribute(:filename, original_filename)
+        self.image = tf
+        self.status = "file_downloaded"
+        self.save
+        tf.close
+      end
+    rescue => e
+      logger.error e.message
+      logger.error e.inspect + e.backtrace.join("\n")
+      update_attribute(:status, "download_failed")
     end
-  rescue => e
-    puts e.message
-    puts e.inspect + e.backtrace.join("\n")
-    update_attribute(:status, "download_failed")
   end
 
   private
@@ -61,6 +65,10 @@ class Bwimage < ActiveRecord::Base
 
       self.update_attribute(:status, "file_downloaded")
     end
+  end
+
+  def start_worker
+    HardWorker.perform_async( self )
   end
 
 end
