@@ -1,12 +1,13 @@
 class Bwimage < ActiveRecord::Base
   attr_accessible :photo, :photo_cache, :url, :filename, :original_filename,
-                  :title, :author, :taken_at, :camera
+                  :title, :author, :taken_at, :camera, :file
 
-  attr_accessor :original_filename
+  attr_accessor :original_filename, :file
 
   mount_uploader :photo, PhotoUploader
 
   #after_save :process_photo
+  before_validation :convert_base64
 
   validates :title, presence: true
   validates :author, presence: true
@@ -26,7 +27,7 @@ class Bwimage < ActiveRecord::Base
       transitions :from => :draft, :to => :downloading
     end
 
-    event :process do
+    event :process, :after => :finish! do
       transitions :from => [:draft, :downloading], :to => :processing
     end
 
@@ -53,6 +54,24 @@ class Bwimage < ActiveRecord::Base
       Resque.enqueue(BwimageTask::Remote, id, url)
     else
       Resque.enqueue(BwimageTask::Local, id)
+    end
+  end
+
+  private
+
+  def convert_base64
+    # http://stackoverflow.com/questions/9854916/base64-upload-from-android-java-to-ror-carrierwave
+    if file.present?
+      tempfile = Tempfile.new("fileupload")
+      tempfile.binmode
+      #get the file and decode it with base64 then write it to the tempfile
+      tempfile.write(Base64.decode64(file))
+
+      #create a new uploaded file
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(:tempfile => tempfile, 
+                                                             :filename => filename || SecureRandom.hex(4), 
+                                                             :original_filename => filename || SecureRandom.hex(4))
+      self.photo = uploaded_file
     end
   end
 

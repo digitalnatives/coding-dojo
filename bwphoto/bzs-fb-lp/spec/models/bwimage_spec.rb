@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sidekiq/testing'
 
 describe Bwimage do
 
@@ -28,6 +29,12 @@ describe Bwimage do
       it 'should create a file from base64 data and have status file_downloaded afterwards' do
         bw.image.should be_exists
         bw.status.should == "file_downloaded"
+      end
+
+      it 'should create a new workers after create (crop)' do
+        expect {
+          BwimageWorker.perform_async(bw)
+        }.to change(BwimageWorker.jobs, :size).by(1)
       end
 
       it 'should crop and grayscale the image and have a processed status afterwards' do
@@ -61,9 +68,10 @@ describe Bwimage do
         bw.should be_valid
       end
 
-      it 'should create a new worker after create and have status queued' do
-        bw.should_receive(:queue_task)
-        bw.status.should == "queued"
+      it 'should create a new workers after create (download, crop)' do
+        expect {
+          BwimageWorker.perform_async(bw)
+        }.to change(BwimageWorker.jobs, :size).by(2)
       end
 
 
@@ -79,7 +87,7 @@ describe Bwimage do
                         :url => 'http://valami123.hu',
                         :filename => 'some_file.png',
                         :content_type => 'image/png')
-        # ... start process here 
+        bw.download_image_from_url
         bw.image.should_not be_exists
         bw.status.should == "download_failed"
       end
