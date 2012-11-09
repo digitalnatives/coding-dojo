@@ -29,6 +29,7 @@ end
 # To use debugger
 gem 'debugger'
 
+gem 'foreman'
 # Web server, pub-sub
 gem 'thin'
 gem 'faye'
