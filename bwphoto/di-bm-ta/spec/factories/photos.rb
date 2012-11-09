@@ -18,9 +18,10 @@ FactoryGirl.define do
       original_file_name "image.jpeg"
       original_content_type "image/jpeg"
     end
-
+    
     trait :photo do
       photo { Rack::Test::UploadedFile.new ::Rails.root.join('spec/fixtures/photo.jpg') }
+      url 'http://farm9.staticflickr.com/8319/7992673887_a882d4e269_c.jpg'
     end
   end
 end
