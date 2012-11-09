@@ -4,11 +4,11 @@ require "bundler/setup"
 require_relative '../../app.rb'
 
 Bundler.require(:default)
+require 'sidekiq/testing'
 
 require 'capybara/cucumber'
 
 app = Rack::Builder.new do
-	use Faye::RackAdapter, 	:mount => '/faye'
 	use Rack::Static, :urls => ["/app"]
 	run RackApp
 end

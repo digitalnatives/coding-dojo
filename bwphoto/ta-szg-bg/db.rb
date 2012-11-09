@@ -10,7 +10,7 @@ class Picture
   property :camera,             Text
   property :date,               Text
   property :author,             Text
-  property :picture,            Text,       :lazy => false
+  property :picture,            Binary,       :lazy => false
   property :processed_picture,  Text,       :lazy => false
   property :filename,           Text,       :required => true, :lazy => false
   property :status,             Text,       :default => 'queued'

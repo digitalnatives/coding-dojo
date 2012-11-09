@@ -10,7 +10,9 @@ Given /^there is (\d+) pictures in the database$/ do |arg1|
 		p = Picture.new({
 			title: 'Picture '+i.to_s,
 			filename: 'picture'+i.to_s+'.png',
-			picture: SMURF_DATA
+			picture: SMURF_DATA,
+			processed_picture: SMURF_DATA,
+			status: 'processed'
 		})
 		p.save
 	end
@@ -35,7 +37,7 @@ end
 
 Then /^I should see a big picture$/ do
 	visible = page.evaluate_script("document.querySelector('#layer').style.display")
-	visible.should_be 'block'
+	visible.should == 'block'
 end
 
 Then /^I should see metadata$/ do
@@ -43,31 +45,34 @@ Then /^I should see metadata$/ do
 end
 
 When /^I click submit$/ do
-	find("input[type=submit]").click
+	find("input[type=button]").click
 end
 
 Then /^I should see an error$/ do
+	sleep 1
 	visible = page.evaluate_script("document.querySelector('#error').style.display")
-	visible.should_be 'block'
+	visible.should == 'block'
 end
 
 When /^I fill title with (.*)$/ do |title|
-	fill_in 'title', title
+	fill_in 'title', with: title
 end
 
 When /^I select a file$/ do
-	attach_file("input[type=file]", "./smurf.jpg")
+	attach_file("file", "./smurf.jpg")
 end
 
 Then /^I should see a success$/ do
+	sleep 1
 	visible = page.evaluate_script("document.querySelector('#success').style.display")
-	visible.should_be 'block'
+	visible.should == 'block'
 end
 
 When /^I fill url with (.*)$/ do |url|
-	fill_in 'url', url
+	fill_in 'url', with: url
+	puts page.evaluate_script("document.querySelector('[name=url]').value")
 end
-
+1
 When /^I wait for faye event$/ do
 	x = 0
 	begin
@@ -79,5 +84,5 @@ end
 
 Then /^I see the uploaded picture in the list$/ do
 	visible = page.evaluate_script("document.querySelectorAll('li:last-child').length")
-	visible.should_be 1
+	visible.should == 1
 end
