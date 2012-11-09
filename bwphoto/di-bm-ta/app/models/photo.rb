@@ -16,8 +16,10 @@ class Photo < ActiveRecord::Base
   # extensions
   has_attached_file :photo,
                     :styles => {
-                      :converted => { :geometry =>"100x100#", :processors => [:crop, :grayscale] }
+                      :converted => { :geometry =>"100x100#", :processors => [:grayscale] }
                     }
+                    
+  before_photo_post_process { |photo| false if photo.status == 'queued' }
 
   def crop_x
     0
