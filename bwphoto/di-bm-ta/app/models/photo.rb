@@ -1,4 +1,18 @@
 class Photo < ActiveRecord::Base
+  # status handling
+  STATUSES = %w(queued processing failed_to_download failed_to_decode failed processed).freeze
+
+  STATUSES.each do |st|
+    scope st, where(status: st)
+
+    define_method "#{st}?" do
+      status == st
+    end
+
+    define_method "#{st}!" do
+      update_attribute :status, st
+    end
+  end
 
   # validations
   validates :title, :presence => true
@@ -15,33 +29,10 @@ class Photo < ActiveRecord::Base
 
   # extensions
   has_attached_file :photo,
-                    :styles => {
-                      :converted => { :geometry =>"100x100#", :processors => [:grayscale] }
-                    }
-                    
-  before_photo_post_process { |photo| false if photo.status == 'queued' }
+                    styles: {converted: '100x100#'},
+                    processors: [:grayscale, :thumbnail]
 
-  def crop_x
-    0
-  end
-  
-  def crop_y
-    0
-  end
-  
-  def crop_w
-    self.smaller_side
-  end
-  
-  def crop_h
-    self.smaller_side
-  end
-  
-  def smaller_side
-    geo = Paperclip::Geometry.from_file(photo(:original))
-
-    [geo.width, geo.height].min
-  end
+  before_photo_post_process { |photo| false if photo.queued? }
 
   private
 
@@ -53,7 +44,7 @@ class Photo < ActiveRecord::Base
     return unless self.base64.present?
 
     logger.debug "processing base64"
-    dst = Tempfile.new(self.original_file_name)
+    dst = Tempfile.new([File.basename(self.original_file_name), File.extname(self.original_file_name)])
     dst.binmode
     dst.write Base64.decode64(base64)
     dst.close

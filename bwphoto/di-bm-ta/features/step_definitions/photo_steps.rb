@@ -20,4 +20,5 @@ end
 
 When /^I visit "(.*?)"$/ do |path|
   get path
+  # p last_json
 end

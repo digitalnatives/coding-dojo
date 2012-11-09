@@ -7,10 +7,9 @@ class PhotoConverterWorker
     @photo = Photo.find(photo_id)
 
     download if @photo.url.present?
-
-    @photo.update_attribute(:status, "processing")
+    @photo.processing!
     convert
-    @photo.update_attribute(:status, "processed")
+    @photo.processed!
   end
 
   def download
