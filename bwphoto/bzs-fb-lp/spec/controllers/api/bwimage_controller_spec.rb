@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Api::BwimageController do
 
-describe "GET 'upload'" do
+describe "GET 'create'" do
 
   describe 'base64' do
 
@@ -16,8 +16,8 @@ describe "GET 'upload'" do
 
     describe 'success' do
 
-      it 'should upload image with valid data' do
-        post 'upload', valid_params 
+      it 'should create image with valid data' do
+        post 'create', valid_params 
         assigns(:bwimage).should be_persisted
       end
 
@@ -30,7 +30,7 @@ describe "GET 'upload'" do
       it 'missing title data' do
           attrs = valid_params
           attrs[:title] = nil
-          post :upload, attrs.to_json
+          post :create, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(response.body).should contain('error')
@@ -51,7 +51,7 @@ describe "GET 'upload'" do
 
     describe 'success' do
       it "returns http success" do
-        post 'upload', valid_params
+        post 'create', valid_params
         response.should be_success
       end
     end
@@ -61,7 +61,7 @@ describe "GET 'upload'" do
         it 'has no url' do
           attrs = valid_params
           attrs[:url] = nil
-          post :upload, attrs.to_json
+          post :create, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(:bwimage).errors.should contain(:url)
@@ -70,7 +70,7 @@ describe "GET 'upload'" do
         it 'has no title' do
           attrs = valid_params
           attrs[:title] = nil
-          post :upload, attrs.to_json
+          post :create, attrs.to_json
 
           assigns(:bwimage).should_not be_valid
           assigns(response.body).should contain('error')
@@ -80,7 +80,7 @@ describe "GET 'upload'" do
 
   end # http
 
-end # GET upload
+end # GET create
 
 describe "GET 'index'" do
   it "returns http success" do

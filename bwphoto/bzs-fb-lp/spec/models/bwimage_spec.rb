@@ -31,6 +31,12 @@ describe Bwimage do
         bw.status.should == "file_downloaded"
       end
 
+      it 'should create a new workers after create (crop)' do
+        expect {
+          BwimageWorker.perform_async(bw)
+        }.to change(BwimageWorker.jobs, :size).by(1)
+      end
+
       it 'should crop and grayscale the image and have a processed status afterwards' do
         bw.crop_and_grayscale
         bw.status.should == "processed"
@@ -62,10 +68,10 @@ describe Bwimage do
         bw.should be_valid
       end
 
-      it 'should create a new worker after create' do
+      it 'should create a new workers after create (download, crop)' do
         expect {
-          HardWorker.perform_async(bw)
-        }.to change(HardWorker.jobs, :size).by(1)
+          BwimageWorker.perform_async(bw)
+        }.to change(BwimageWorker.jobs, :size).by(2)
       end
 
 

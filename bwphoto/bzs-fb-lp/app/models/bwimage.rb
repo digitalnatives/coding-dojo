@@ -10,7 +10,7 @@ class Bwimage < ActiveRecord::Base
 	has_attached_file :image, :styles => { :thumbnail => "x100" }
 
 	after_initialize :decode_base64_image, :if => lambda{|bwimage| bwimage.file.present?}
-  after_create :start_worker
+  after_commit :start_worker, :on => :create
 
   def crop_and_grayscale
   	thumb_path = self.image.path(:thumbnail)
@@ -63,12 +63,13 @@ class Bwimage < ActiveRecord::Base
       self.image = data
       self.image.instance_write(:file_name, filename)
 
-      self.update_attribute(:status, "file_downloaded")
+      self.status = "file_downloaded"
     end
   end
 
   def start_worker
-    HardWorker.perform_async( self )
+    puts self.inspect
+    BwimageWorker.perform_async( self.id )
   end
 
 end
