@@ -18,6 +18,6 @@ Given /^the following photos exist:$/ do |table|
   table.hashes.map { |hash| FactoryGirl.create(:photo, :photo, hash) }
 end
 
-When /^I visit "(.*?)"$/ do |arg1|
+When /^I visit "(.*?)"$/ do |path|
   get path
 end
