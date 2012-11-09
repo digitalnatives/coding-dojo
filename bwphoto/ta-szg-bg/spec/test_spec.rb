@@ -143,7 +143,7 @@ describe 'all' do
     it 'status should be processed after conversion' do
       img = Picture.new({picture: SMURF_DATA, title: 'asd', filename: 'as.png'})
       img.save
-      Worker.convert img.id
+      Worker.new.convert img.id
       Picture.get(img.id).status.should eq('processed')
     end
 
@@ -161,7 +161,7 @@ describe 'all' do
       img = Picture.new({title: 'test', picture: SMURF_DATA, filename: 'filename.png'})
       img.save
       Magick::Image.should_receive(:read_inline).and_return [stub.as_null_object]
-      Worker.convert img.id
+      Worker.new.convert img.id
     end
 
     class FakeResponse
@@ -174,7 +174,7 @@ describe 'all' do
       img = Picture.new({title: 'test', filename: 'http://bluebuddies.com/Smurf_Picture_and_Files/00002416/2012smurfs.jpg'})
       img.save
       Curl::Easy.should_receive(:perform).and_return FakeResponse.new
-      Worker.convert img.id
+      Worker.new.convert img.id
     end
   end
 
