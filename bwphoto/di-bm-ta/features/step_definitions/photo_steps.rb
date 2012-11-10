@@ -1,5 +1,5 @@
 Given /^I post JSON to "(.*?)" with:$/ do |to, json|
-  post(to, { :data => json }, {"Content-type" => "application/json"})
+  post(to, { :photo => json }, {"Content-type" => "application/json"})
 end
 
 Then /^I should get a response with status (\d+)$/ do |status|
@@ -20,5 +20,5 @@ end
 
 When /^I visit "(.*?)"$/ do |path|
   get path
-  # p last_json
+  p last_json
 end

@@ -1,5 +1,4 @@
 class Api::PhotosController < ApplicationController
-
   respond_to :json
 
   def index
@@ -14,7 +13,7 @@ class Api::PhotosController < ApplicationController
   end
 
   def create
-    data = JSON.parse(params[:data])
+    data = JSON.parse(params[:photo])
 
     @photo = Photo.new
     @photo.title            = data["title"]

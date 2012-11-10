@@ -11,7 +11,7 @@ Feature: Photo upload
         "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 200
+    Then I should get a response with status 201
     And I should have 1 photo(s) in the database
 
   Scenario: Upload photo with a file (base64)
@@ -26,7 +26,7 @@ Feature: Photo upload
         "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 200
+    Then I should get a response with status 201
     And I should have 1 photo(s) in the database
 
   Scenario: Upload photo with missing file parameter
@@ -39,7 +39,7 @@ Feature: Photo upload
         "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 422
+    Then I should get a response with status 500
     And I should have no photo in the database
 
 
@@ -54,5 +54,5 @@ Feature: Photo upload
         "taken_at": "2012-08-01 12:45"
       }
     """
-    Then I should get a response with status 422
+    Then I should get a response with status 500
     And I should have no photo in the database

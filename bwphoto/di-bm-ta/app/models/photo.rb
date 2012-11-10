@@ -21,7 +21,6 @@ class Photo < ActiveRecord::Base
 
   # attributes
   attr_accessor :base64
-  attr_accessor :original_file_name, :original_content_type
 
   # callback methods
   before_validation :process_base64, :on => :create
@@ -44,7 +43,7 @@ class Photo < ActiveRecord::Base
     return unless self.base64.present?
 
     logger.debug "processing base64"
-    dst = Tempfile.new([File.basename(self.original_file_name), File.extname(self.original_file_name)])
+    dst = Tempfile.new([File.basename(self.photo_file_name), File.extname(self.photo_file_name)])
     dst.binmode
     dst.write Base64.decode64(base64)
     dst.close
