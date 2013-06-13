@@ -1,0 +1,2 @@
+rvm use ruby-1.9.3-p392@es_transcoder --create
+rvm_project_rvmrc_default=1
