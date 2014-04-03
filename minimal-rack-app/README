@@ -1,0 +1,9 @@
+Install
+* bundle install
+
+Run
+* rackup
+
+Test in browser
+* http://localhost:9292/index.html
+
