@@ -1,9 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.6.3)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
     hike (1.2.3)
     multi_json (1.9.2)
     rack (1.5.2)
+    sass (3.3.4)
     sprockets (2.12.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -18,6 +25,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  coffee-script (~> 2.2.0)
   rack (~> 1.5.2)
+  sass (~> 3.3.4)
   sprockets (~> 2.12.0)
   sprockets-sass (~> 1.0.3)
