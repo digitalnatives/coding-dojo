@@ -34,21 +34,76 @@ class TableComponent < Fron::Component
   class UserItem < Fron::Component
     tag 'tr'
 
+    class UserStatus < Fron::Component
+      tag 'td'
+
+      component :link, "a[href=#].status"
+
+      on :click, '.status', :toggle
+
+      def init(user)
+        @user = user
+      end
+
+      def link_text
+        case @user[:status]
+        when 'active'
+          'lock'
+        when 'locked'
+          'activate'
+        end
+      end
+
+      def opposite_status
+        case @user[:status]
+        when 'active'
+          'locked'
+        when 'locked'
+          'active'
+        end
+      end
+
+      def toggle
+        request = Fron::Request.new "http://js-assessment-backend.herokuapp.com/users/#{@user[:id]}.json", 'Content-Type' => 'application/json'
+        request.put(user: { status: opposite_status }) do |response|
+          if response.ok? || response.status == 204
+            @user[:status] = opposite_status
+            trigger 'render'
+          end
+        end
+      end
+
+      def render
+        @link.text = link_text
+      end
+    end
+
     component :id, 'td'
     component :first_name, 'td'
     component :last_name, 'td'
-    component :status, 'td'
+    component :status, 'td.status'
     component :created_at, 'td'
     component :updated_at, 'td'
+    component :status_toggle, UserStatus
+
+    on 'render', :render
 
     def initialize( user )
       super( nil )
-      @id.text = user[:id]
-      @last_name.text = user[:last_name]
-      @first_name.text = user[:first_name]
-      @status.text = user[:status]
-      @created_at.text = user[:created_at]
-      @updated_at.text = user[:updated_at]
+      @user = user
+      self[:id] = "user_#{user[:id]}"
+      status_toggle.init(user)
+      render
+    end
+
+    def render
+      @id.text = @user[:id]
+      @last_name.text = @user[:last_name]
+      @first_name.text = @user[:first_name]
+      @status.text = @user[:status]
+      @created_at.text = @user[:created_at]
+      @updated_at.text = @user[:updated_at]
+      @status_toggle.render
     end
   end
 
@@ -78,6 +133,7 @@ class TableComponent < Fron::Component
   end
 
   def next_page
+    return if @page == (@users.count.to_f / @per_page).ceil
     @page += 1
     render_page @page
   end
