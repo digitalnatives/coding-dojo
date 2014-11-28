@@ -1,7 +1,7 @@
 require 'user_item'
 
 class TableComponent < Fron::Component
-  tag 'table'
+  tag 'table.table'
 
   attr_accessor :page
   attr_accessor :per_page

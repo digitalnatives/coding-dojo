@@ -1,10 +1,12 @@
 class PagerComponent < Fron::Component
-  tag 'div'
+  tag 'ul.pager'
 
-  PAGE_METHODS = %w(next prev first last)
+  PAGE_METHODS = %w(first prev next last)
 
   PAGE_METHODS.each do |page_method|
-    component page_method, "a[href=#].#{ page_method } #{ page_method.capitalize }"
+    component page_method, 'li' do
+      component :a, "a[href=#].#{ page_method } #{ page_method.capitalize }"
+    end
     on :click, ".#{page_method}", page_method
 
     define_method page_method do
