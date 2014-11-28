@@ -32,16 +32,32 @@ class TableComponent < Fron::Component
     end
   end
 
-  def next_page
-    return if @page == (@users.count.to_f / @per_page).ceil
+  def next
+    return if @page == page_count
     @page += 1
     render_page @page
   end
 
-  def prev_page
+  def prev
     return if @page == 1
     @page -= 1
     render_page @page
+  end
+
+  def first
+    @page = 1
+    render_page @page
+  end
+
+  def last
+    @page = page_count
+    render_page @page
+  end
+
+  private
+
+  def page_count
+    (@users.count.to_f / @per_page).ceil
   end
 
 end

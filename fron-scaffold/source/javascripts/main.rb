@@ -12,10 +12,11 @@ class MainComponent < Fron::Component
   component :table, TableComponent
   component :pager, PagerComponent
 
-  on 'nextPage', :next_page
-  on 'prevPage', :prev_page
+  PagerComponent::PAGE_METHODS.each do |page_method|
+    on page_method, page_method
+  end
 
-  def_delegators :table, :next_page, :prev_page
+  def_delegators :table, *PagerComponent::PAGE_METHODS
 
   def initialize
     super
