@@ -1,0 +1,25 @@
+linters:
+  SingleLinePerSelector:
+    enabled: false
+
+  PropertySortOrder:
+    enabled: false
+
+  LeadingZero:
+    style: include_zero
+
+  HexNotation:
+    style: uppercase
+
+  SelectorDepth:
+    max_depth: 5
+
+  NestingDepth:
+    enabled: false
+
+  QualifyingElement:
+    enabled: false
+
+  Indentation:
+    enabled: true
+    width: 2
